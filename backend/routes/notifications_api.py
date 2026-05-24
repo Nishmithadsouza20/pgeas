@@ -65,7 +65,7 @@ def create_notification():
         return jsonify({'error': 'No company assigned'}), 400
     data = request.get_json()
     db.execute('INSERT INTO notifications (user_id,type,title,body,link) VALUES (?,?,?,?,?)',
-               [data.get('user_id', uid), data.get('type','info'),
+               [uid, data.get('type','info'),
                 data['title'], data.get('body',''), data.get('link','')])
     db.commit()
     db.close()

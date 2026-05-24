@@ -276,7 +276,9 @@ export default function Expenses() {
                     </tr>
                   ))}
                   {expenses.length === 0 && (
-                    <tr><td colSpan={7} style={{ textAlign:'center', padding:48, color:'var(--text-3)' }}>No expenses for this period.</td></tr>
+                    <tr><td colSpan={7}>
+                      <div className="empty-state"><div className="empty-state-icon">💰</div><h4>No expenses</h4><p>No expenses recorded for this period.</p></div>
+                    </td></tr>
                   )}
                 </tbody>
               </table>
@@ -390,7 +392,11 @@ export default function Expenses() {
               );
             })}
             {filteredFood.length === 0 && (
-              <div style={{ gridColumn:'1/-1', textAlign:'center', padding:60, color:'var(--text-3)' }}>No items found.</div>
+              <div className="empty-state" style={{ gridColumn:'1/-1' }}>
+                <div className="empty-state-icon">🥬</div>
+                <h4>No inventory items</h4>
+                <p>No food inventory items found.</p>
+              </div>
             )}
           </div>
         </>

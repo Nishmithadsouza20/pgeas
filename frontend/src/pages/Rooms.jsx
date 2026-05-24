@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
+import { useToast } from '../context/ToastContext';
 
 const EMPTY = { room_number:'', floor:'1', type:'single', rent_amount:'', amenities:'', status:'vacant', photo_url:'' };
 const TYPE_MAX  = { single:1, double:2, triple:3 };
@@ -12,6 +13,7 @@ const FOOD_ICON  = { veg:'🥦', nonveg:'🍗', jain:'🌿', vegan:'🌱' };
 
 export default function Rooms() {
   const navigate = useNavigate();
+  const toast    = useToast();
   const [rooms,        setRooms]        = useState([]);
   const [stats,        setStats]        = useState({});
   const [unassigned,   setUnassigned]   = useState([]);
@@ -52,7 +54,7 @@ export default function Rooms() {
 
   const del = async id => {
     if (!window.confirm('Delete this room?')) return;
-    try { await api.deleteRoom(id); load(); } catch (err) { alert(err.message); }
+    try { await api.deleteRoom(id); load(); toast.success('Room deleted'); } catch (err) { toast.error(err.message); }
   };
 
   // Remove a resident from a room (unassign)
@@ -62,7 +64,8 @@ export default function Rooms() {
       await api.updateResident(residentId, { room_id: null });
       setBedModal(null);
       load();
-    } catch (err) { alert(err.message); }
+      toast.success('Resident unassigned from room');
+    } catch (err) { toast.error(err.message); }
     finally { setBedLoading(false); }
   };
 
@@ -74,7 +77,8 @@ export default function Rooms() {
       await api.updateResident(Number(assignSel), { room_id: assignModal.room.id });
       setAssignModal(null); setAssignSel('');
       load();
-    } catch (err) { alert(err.message); }
+      toast.success('Resident assigned successfully');
+    } catch (err) { toast.error(err.message); }
     finally { setBedLoading(false); }
   };
 
@@ -251,8 +255,13 @@ export default function Rooms() {
             );
           })}
           {filtered.length === 0 && (
-            <div style={{ gridColumn:'1/-1', textAlign:'center', padding:60, color:'var(--text-3)' }}>
-              No rooms found for this filter.
+            <div style={{ gridColumn:'1/-1' }}>
+              <div className="empty-state">
+                <div className="empty-state-icon">🚪</div>
+                <h4>No rooms found</h4>
+                <p>{filter !== 'all' ? `No ${filter} rooms match the current filter.` : 'Add your first room to get started.'}</p>
+                {filter === 'all' && <button className="btn btn-primary btn-sm" onClick={openNew}>+ Add Room</button>}
+              </div>
             </div>
           )}
         </div>
@@ -312,7 +321,9 @@ export default function Rooms() {
                   );
                 })}
                 {filtered.length === 0 && (
-                  <tr><td colSpan={8} style={{ textAlign:'center', padding:48, color:'var(--text-3)' }}>No rooms.</td></tr>
+                  <tr><td colSpan={8}>
+                    <div className="empty-state"><div className="empty-state-icon">🚪</div><h4>No rooms</h4><p>No rooms match the current filter.</p></div>
+                  </td></tr>
                 )}
               </tbody>
             </table>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const DAYS  = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 const MEALS = ['Breakfast','Lunch','Dinner'];
@@ -9,6 +10,7 @@ const MEAL_COLOR = { Breakfast:'#3b82f6', Lunch:'#22c55e', Dinner:'#8b5cf6' };
 
 export default function MessMenu() {
   const { user }  = useAuth();
+  const toast     = useToast();
   const isAdmin   = ['super_admin','owner'].includes(user?.role);
 
   const [menu,    setMenu]    = useState([]);
@@ -43,7 +45,7 @@ export default function MessMenu() {
 
   const del = async id => {
     if (!window.confirm('Delete this menu item?')) return;
-    try { await api.deleteMenuItem(id); load(); } catch(err) { alert(err.message); }
+    try { await api.deleteMenuItem(id); load(); toast.success('Menu item deleted'); } catch(err) { toast.error(err.message); }
   };
 
   const grouped = DAYS.reduce((acc, day) => {

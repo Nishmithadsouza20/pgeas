@@ -173,7 +173,7 @@ def forgot_password():
     db.commit()
     db.close()
     print(f"\n[OTP] Password reset OTP for {email}: {otp}\n")
-    return jsonify({'message': 'OTP sent', 'otp_hint': otp})
+    return jsonify({'message': 'OTP sent'})
 
 @auth_bp.route('/reset-password', methods=['POST'])
 def reset_password():

@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children, roles }) {
   if (loading) {
     return (
       <div className="pg-spinner">
-        <div className="spinner-border text-warning" />
+        <div className="spinner-border" />
         <span>Loading…</span>
       </div>
     );
@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children, roles }) {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'80vh', flexDirection:'column', gap:12 }}>
         <div style={{ fontSize:48 }}>🚫</div>
         <h4 style={{ color:'var(--accent)' }}>Access Denied</h4>
-        <p style={{ color:'var(--text-muted)' }}>You don't have permission to view this page.</p>
+        <p style={{ color:'var(--text-2)' }}>You don't have permission to view this page.</p>
       </div>
     );
   }

@@ -127,11 +127,13 @@ export default function Visitors() {
                   </tr>
                 ))}
                 {shown.length === 0 && (
-                  <tr>
-                    <td colSpan={8} style={{ textAlign:'center', padding:48, color:'var(--text-3)' }}>
-                      No visitors found.
-                    </td>
-                  </tr>
+                  <tr><td colSpan={8}>
+                    <div className="empty-state">
+                      <div className="empty-state-icon">🚶</div>
+                      <h4>No visitors</h4>
+                      <p>No visitor records for the selected date.</p>
+                    </div>
+                  </td></tr>
                 )}
               </tbody>
             </table>

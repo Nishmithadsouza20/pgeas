@@ -1,15 +1,33 @@
 # PGease — Smart Accommodation Management Platform
 
-A full-stack multi-tenant SaaS platform for managing PGs, hostels, lodges, dormitories, and apartments.
+> **College Internship Project** · Built by **Nishmitha Pawan**
+
+A full-stack, multi-tenant SaaS platform for managing PGs, hostels, lodges, dormitories, and apartments — with role-based portals for Super Admins, Property Owners, and Residents.
+
+---
+
+## What is PGease?
+
+PGease is a complete property management system that lets a platform operator (Super Admin) onboard client properties (Owners) who then manage their residents end-to-end — from room allocation and rent collection to complaints, gate passes, staff payroll, and analytics.
+
+**Three roles. One platform.**
+
+| Role | What they see | How created |
+|------|--------------|-------------|
+| Super Admin | Platform Console — all clients, MRR, billing | `seed.py` |
+| Owner | Property Management — rooms, residents, finance | Super Admin |
+| Resident | My Portal — payments, complaints, notices | Owner |
+
+---
 
 ## Tech Stack
 
-| Layer    | Technology |
-|----------|-----------|
-| Frontend | React 18, React Router v6, Recharts, CSS variables (mobile-responsive) |
-| Backend  | Python Flask, Flask-JWT-Extended, SQLite |
-| Auth     | JWT tokens + bcrypt password hashing + OTP verification |
-| Database | Multi-tenant SQLite — 1 platform DB + 1 isolated DB per client |
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18 · React Router v6 · Recharts · CSS Variables |
+| Backend | Python Flask · Flask-JWT-Extended · SQLite |
+| Auth | JWT tokens · bcrypt · OTP email verification |
+| Database | Multi-tenant SQLite (1 platform DB + 1 per client) |
 
 ---
 
@@ -20,38 +38,35 @@ A full-stack multi-tenant SaaS platform for managing PGs, hostels, lodges, dormi
 ```bash
 cd backend
 pip install -r requirements.txt
-python seed.py        # Creates all 15 demo companies + 31 accounts
-python app.py         # API on http://localhost:5000
+python seed.py        # seed all demo accounts (run once)
+python app.py         # starts API on http://localhost:5000
 ```
 
-> **Windows note:** If `python` is not found, use the full path:
-> `C:\Users\tast\AppData\Local\Python\bin\python.exe seed.py`
+> **Windows:** If `python` is not on PATH, use the full path:
+> ```
+> C:\Users\tast\AppData\Local\Python\pythoncore-3.10-64\python.exe seed.py
+> ```
 
 ### 2. Frontend
 
 ```bash
 cd frontend
 npm install
-npm start             # React app on http://localhost:3000
+npm start             # React dev server on http://localhost:3000
 ```
 
----
+### 3. Re-seed (fresh data)
 
-## How Accounts Work
-
-There are **three roles**. All accounts are created by `seed.py` — there is no public self-registration.
-
-| Role | Portal | Account created by |
-|------|--------|--------------------|
-| **Super Admin** | Platform Console | `seed.py` |
-| **Owner** | Property Management | Super Admin (Platform Console) |
-| **Resident** | Resident Portal | Owner (Residents page) |
+```bash
+cd backend
+python seed.py        # wipes and recreates all 15 companies + 31 accounts
+```
 
 ---
 
 ## Demo Accounts
 
-> Run `python seed.py` once to create everything. Re-run any time for a fresh start.
+All passwords are fixed so you can log in immediately after seeding.
 
 ### Super Admin
 
@@ -61,61 +76,58 @@ There are **three roles**. All accounts are created by `seed.py` — there is no
 
 ---
 
-### Owner Accounts — 15 companies (5 property types × 3 plans)
+### Owner Accounts (15 companies)
 
 **Password for all owners: `Owner@123`**
 
-#### PG (Paying Guest)
+#### PG — Paying Guest
 
-| Plan | Status | Email | Company | City |
-|------|--------|-------|---------|------|
-| Basic | Active | `owner.pg.basic@pgease.com` | Cozy Nest PG | Mysore |
-| Premium | Active | `owner.pg.premium@pgease.com` | Sunrise PG Homes | Bangalore |
-| Enterprise | Active | `owner.pg.enterprise@pgease.com` | Royal Comfort PG | Bangalore |
+| Plan | Email | Company | City | Status |
+|------|-------|---------|------|--------|
+| Basic | `owner.pg.basic@pgease.com` | Cozy Nest PG | Mysore | Active |
+| Premium | `owner.pg.premium@pgease.com` | Sunrise PG Homes | Bangalore | Active |
+| Enterprise | `owner.pg.enterprise@pgease.com` | Royal Comfort PG | Bangalore | Active |
 
 #### Hostel
 
-| Plan | Status | Email | Company | City |
-|------|--------|-------|---------|------|
-| Basic | Trial | `owner.hostel.basic@pgease.com` | Budget Nest Hostel | Pune |
-| Premium | Active | `owner.hostel.premium@pgease.com` | Green Valley Hostel | Mumbai |
-| Enterprise | Active | `owner.hostel.enterprise@pgease.com` | Elite Stay Hostel | Hyderabad |
+| Plan | Email | Company | City | Status |
+|------|-------|---------|------|--------|
+| Basic | `owner.hostel.basic@pgease.com` | Budget Nest Hostel | Pune | Trial |
+| Premium | `owner.hostel.premium@pgease.com` | Green Valley Hostel | Mumbai | Active |
+| Enterprise | `owner.hostel.enterprise@pgease.com` | Elite Stay Hostel | Hyderabad | Active |
 
 #### Lodge
 
-| Plan | Status | Email | Company | City |
-|------|--------|-------|---------|------|
-| Basic | Active | `owner.lodge.basic@pgease.com` | City Budget Lodge | Chennai |
-| Premium | Active | `owner.lodge.premium@pgease.com` | Metro Lodge | Bangalore |
-| Enterprise | Active | `owner.lodge.enterprise@pgease.com` | Grand Stay Lodge | Delhi |
+| Plan | Email | Company | City | Status |
+|------|-------|---------|------|--------|
+| Basic | `owner.lodge.basic@pgease.com` | City Budget Lodge | Chennai | Active |
+| Premium | `owner.lodge.premium@pgease.com` | Metro Lodge | Bangalore | Active |
+| Enterprise | `owner.lodge.enterprise@pgease.com` | Grand Stay Lodge | Delhi | Active |
 
 #### Dormitory
 
-| Plan | Status | Email | Company | City |
-|------|--------|-------|---------|------|
-| Basic | Trial | `owner.dorm.basic@pgease.com` | Campus Dorms | Manipal |
-| Premium | Active | `owner.dorm.premium@pgease.com` | Metro Dormitory | Hyderabad |
-| Enterprise | Active | `owner.dorm.enterprise@pgease.com` | Premier Dorms | Chennai |
+| Plan | Email | Company | City | Status |
+|------|-------|---------|------|--------|
+| Basic | `owner.dorm.basic@pgease.com` | Campus Dorms | Manipal | Trial |
+| Premium | `owner.dorm.premium@pgease.com` | Metro Dormitory | Hyderabad | Active |
+| Enterprise | `owner.dorm.enterprise@pgease.com` | Premier Dorms | Chennai | Active |
 
 #### Apartment
 
-| Plan | Status | Email | Company | City |
-|------|--------|-------|---------|------|
-| Basic | Active | `owner.apartment.basic@pgease.com` | Urban Budget Flats | Noida |
-| Premium | Active | `owner.apartment.premium@pgease.com` | Urban Apartments | Delhi |
-| Enterprise | Active | `owner.apartment.enterprise@pgease.com` | Prestige Residences | Mumbai |
+| Plan | Email | Company | City | Status |
+|------|-------|---------|------|--------|
+| Basic | `owner.apartment.basic@pgease.com` | Urban Budget Flats | Noida | Active |
+| Premium | `owner.apartment.premium@pgease.com` | Urban Apartments | Delhi | Active |
+| Enterprise | `owner.apartment.enterprise@pgease.com` | Prestige Residences | Mumbai | Active |
 
 ---
 
-### Resident Accounts — 1 per company (15 total)
-
-> Residents do **not** have a subscription plan — the plan belongs to the owner's company.
-> Each resident below is seeded inside one owner's property for demo purposes.
+### Resident Accounts (15 residents, one per company)
 
 **Password for all residents: `Resident@123`**
 
-| Email | Name | Lives in |
-|-------|------|---------|
+| Email | Resident Name | Property |
+|-------|--------------|---------|
 | `resident.pg.basic@pgease.com` | Arjun Sharma | Cozy Nest PG |
 | `resident.pg.premium@pgease.com` | Priya Mehta | Sunrise PG Homes |
 | `resident.pg.enterprise@pgease.com` | Rohan Gupta | Royal Comfort PG |
@@ -136,49 +148,62 @@ There are **three roles**. All accounts are created by `seed.py` — there is no
 
 ## Subscription Plans
 
-| Plan | Price | Max Rooms | Key Features |
-|------|-------|-----------|-------------|
-| Basic | ₹2,999/mo | 50 | Rooms, residents, payments, complaints, visitors, gate pass |
-| Premium | ₹4,999/mo | 200 | + Analytics, invoices, staff, payroll, deposits |
-| Enterprise | ₹7,999/mo | Unlimited | + Food inventory, full reports, priority support |
+| Plan | Price | Max Rooms | Included Features |
+|------|-------|-----------|------------------|
+| **Basic** | ₹2,999/mo | 50 | Rooms · Residents · Payments · Complaints · Visitors · Gate Pass · Mess Menu · Enquiries |
+| **Premium** | ₹4,999/mo | 200 | Everything in Basic + Analytics · Invoices · Staff · Payroll · Security Deposits · Expenses |
+| **Enterprise** | ₹7,999/mo | Unlimited | Everything in Premium + Food Inventory · Full Reports · Meal Attendance · Priority Support |
 
 ---
 
 ## Feature Modules
 
 ### Owner Portal
+
 | Module | Description |
 |--------|------------|
-| Dashboard | KPIs, occupancy rate, revenue trend charts |
-| Rooms | Add, edit, assign / vacate rooms |
-| Residents | Full resident management + resident login creation |
-| Payments | Rent collection, payment history |
-| Invoices | Monthly rent invoice generation |
-| Deposits | Security deposit tracking and refunds |
-| Expenses | Expense tracking by category |
-| Reports | P&L, rent roll, defaulters, occupancy |
-| Staff | Employee records |
-| Attendance | Daily staff attendance |
-| Payroll | Monthly salary generation |
-| Maintenance | Work order tracking |
-| Gate Pass | Resident gate pass approvals (PG / Hostel / Dormitory) |
-| Enquiries | Prospective tenant pipeline |
-| Complaints | Resident complaints tracker |
-| Notices | Notice board |
-| Mess Menu | Weekly food menu (PG / Hostel / Dormitory) |
-| Meal Attendance | Breakfast / lunch / dinner tracking |
-| Analytics | Occupancy, revenue, complaints charts |
-| Settings | Branding, contact info, current plan details |
+| **Dashboard** | Real-time KPIs — occupancy rate, revenue, pending payments, recent activity |
+| **Rooms** | Add/edit rooms, assign residents to beds, per-bed management |
+| **Residents** | Full resident profiles, food preference, move-in/out, away status |
+| **Payments** | Rent collection, payment history, status tracking, reminders |
+| **Invoices** | Auto-generate monthly rent invoices per resident |
+| **Security Deposits** | Track deposits paid and refunds |
+| **Expenses** | Log and categorise property expenses |
+| **Reports** | P&L statement, rent roll, defaulters list, occupancy report |
+| **Staff** | Employee records, role and shift management |
+| **Attendance** | Daily staff attendance marking and summary |
+| **Payroll** | Monthly salary computation and slip generation |
+| **Maintenance** | Work order creation, assignment, and resolution tracking |
+| **Gate Pass** | Resident in/out pass request and approval (PG / Hostel / Dorm) |
+| **Enquiries** | Prospective tenant pipeline with follow-up status |
+| **Complaints** | Resident complaint tracking and resolution workflow |
+| **Notices** | Post notices by category; residents see them in their portal |
+| **Mess Menu** | Weekly food menu management (PG / Hostel / Dorm) |
+| **Meal Attendance** | Daily breakfast / lunch / dinner attendance per resident |
+| **Analytics** | Occupancy trend, revenue charts, complaint breakdown, payment rate |
+| **Settings** | Branding (logo, name, tagline), contact info, accent colour, plan details |
 
 ### Resident Portal
-Dashboard · My Payments · Maintenance · Gate Pass · Complaints · Mess Menu · Notices
+
+| Screen | What the resident sees |
+|--------|----------------------|
+| Dashboard | Room details, recent payments, today's mess menu |
+| My Payments | Payment history and current dues |
+| Maintenance | Raise and track maintenance requests |
+| Gate Pass | Request and track gate passes |
+| Complaints | File and monitor complaint status |
+| Mess Menu | Weekly food menu |
+| Notices | All property notices |
 
 ### Super Admin — Platform Console
-- Provision, edit, suspend client companies
-- Billing — generate monthly invoices, mark paid
-- Email log — track all client communications
-- Analytics — MRR trend, plan distribution, city breakdown
-- Real-time plan-change alerts pushed to owner dashboards
+
+| Feature | Description |
+|---------|------------|
+| Client Management | Provision, edit, suspend, delete client companies |
+| Billing | Generate monthly invoices per client, mark as paid |
+| Email Log | Track all system emails sent to owners |
+| Analytics | MRR trend, plan distribution pie chart, city breakdown |
+| Live Alerts | Plan/status changes are pushed to owner dashboards in real time |
 
 ---
 
@@ -187,79 +212,141 @@ Dashboard · My Payments · Maintenance · Gate Pass · Complaints · Mess Menu 
 ```
 PGease/
 ├── backend/
-│   ├── app.py              # Flask entry point + blueprint registration
-│   ├── database.py         # Multi-tenant DB setup
-│   ├── seed.py             # Master seed script  ← run this first
-│   ├── routes/             # API blueprints (auth, rooms, residents, …)
-│   ├── pgease.db           # Platform DB (auto-created by seed.py)
-│   └── company_N.db        # Per-client DB (auto-created by seed.py)
+│   ├── app.py              # Flask app factory + blueprint registration
+│   ├── database.py         # Multi-tenant DB setup and schema
+│   ├── seed.py             # Master seed script  ← always run this first
+│   ├── seed_data.py        # Alternative seed with richer demo data
+│   ├── routes/             # API blueprints
+│   │   ├── auth.py         # Login, OTP, password reset
+│   │   ├── rooms.py        # Room CRUD + bed management
+│   │   ├── residents.py    # Resident CRUD + CSV export
+│   │   ├── payments.py     # Payments + gateway simulation
+│   │   ├── staff.py        # Staff + attendance + payroll
+│   │   ├── analytics.py    # Charts and KPI endpoints
+│   │   └── ...             # complaints, notices, mess, gatepass, …
+│   ├── pgease.db           # Platform DB (auto-created)
+│   └── company_N.db        # Per-client isolated DB (auto-created)
+│
 ├── frontend/
-│   ├── src/
-│   │   ├── pages/          # Page components
-│   │   ├── components/     # Sidebar, Navbar, NotificationBell
-│   │   ├── context/        # AuthContext, ThemeContext
-│   │   └── utils/api.js    # Centralised API client
-│   └── public/
+│   ├── public/
+│   └── src/
+│       ├── App.js              # Routes + Shell layout
+│       ├── index.css           # Global design system (CSS variables)
+│       ├── pages/              # One file per page/route
+│       │   ├── Login.jsx
+│       │   ├── ForgotPassword.jsx
+│       │   ├── Dashboard.jsx
+│       │   ├── Rooms.jsx
+│       │   ├── Residents.jsx
+│       │   ├── Payments.jsx
+│       │   └── ...             # 20+ pages total
+│       ├── components/
+│       │   ├── Sidebar.jsx
+│       │   ├── Navbar.jsx
+│       │   ├── NotificationBell.jsx
+│       │   └── ProtectedRoute.jsx
+│       ├── context/
+│       │   ├── AuthContext.js   # JWT + user state + company polling
+│       │   ├── ThemeContext.js  # Dark / Light theme toggle
+│       │   └── ToastContext.js  # Global toast notifications
+│       └── utils/
+│           └── api.js           # Centralised fetch wrapper
+│
 ├── docs/
-│   ├── USER_GUIDE.md       # Role-by-role walkthrough
-│   └── screenshots/        # Add screenshots here (see screenshots/README.md)
+│   ├── USER_GUIDE.md           # Role-by-role feature walkthrough
+│   └── screenshots/            # Add screenshots here
+│
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Environment (optional)
+## Authentication Flow
 
-Create `backend/.env` — defaults work without it:
+```
+User enters email + password
+        │
+        ▼
+  POST /api/auth/login
+        │
+   ┌────┴────┐
+   │ Success │──► JWT token returned ──► stored in localStorage
+   └────┬────┘
+        │
+        ▼
+  React Router redirects to /dashboard
+        │
+        ▼
+  AuthContext polls /api/auth/me every 30s
+  (owners also poll /api/companies/my-settings for plan changes)
+```
+
+**Password reset flow:**  
+`Forgot Password` → OTP sent to email → enter OTP → set new password
+
+---
+
+## Environment Setup (optional)
+
+Create `backend/.env` — all values have safe defaults without it:
 
 ```env
 SECRET_KEY=pgease_secret
 JWT_SECRET_KEY=pgease_jwt
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_personal_email@gmail.com
+MAIL_PASSWORD=your_app_password
 ```
+
+> Email (OTP, reminders) only works if `MAIL_USERNAME` and `MAIL_PASSWORD` are configured.
 
 ---
 
-## Push to GitHub
+## Pushing to GitHub
 
 ```bash
-# 1. Create a new EMPTY repo on github.com (no README, no .gitignore)
+# From C:\Users\tast\PGease in terminal:
 
-# 2. From C:\Users\tast\PGease in terminal:
 git init
 git add .
-git commit -m "Initial commit: PGease accommodation management platform"
+git commit -m "feat: PGease accommodation management platform"
 
-# 3. Replace YOUR_USERNAME with your GitHub username:
+# Create an empty repo on github.com, then:
 git remote add origin https://github.com/YOUR_USERNAME/pgease.git
 git branch -M main
 git push -u origin main
 ```
 
-**Every push after that:**
+**Subsequent pushes:**
 ```bash
 git add .
 git commit -m "describe your change"
 git push
 ```
 
-### What .gitignore excludes
-| Pattern | Reason |
-|---------|--------|
+### Files excluded by .gitignore
+
+| Pattern | Why excluded |
+|---------|-------------|
 | `*.db` | SQLite files — regenerate with `seed.py` |
-| `node_modules/` | Reinstall with `npm install` |
-| `__pycache__/` | Python bytecode |
-| `.env` | Secrets |
+| `node_modules/` | Reinstall via `npm install` |
+| `__pycache__/` | Python bytecode — auto-generated |
+| `.env` | Contains secrets |
 
 ---
 
-## Re-seeding
+## Key Design Decisions
 
-```bash
-cd backend
-python seed.py    # Wipes all data and creates 31 fresh demo accounts
-```
+| Decision | Reason |
+|----------|--------|
+| Per-client SQLite databases | Full data isolation between tenants; no cross-contamination risk |
+| JWT + OTP | Stateless auth with email-verified password resets |
+| React CSS variables | Single source of truth for theme — dark/light toggle with zero JS |
+| Multi-step provision wizard | Guides admin through client onboarding without errors |
+| Plan-change polling | Owners see plan upgrades/downgrades live without page refresh |
 
 ---
 
-*PGease — College Project by Bhuvan Mahadev*
+*PGease — College Project by Nishmitha Pawan*

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../utils/api';
+import { useToast } from '../context/ToastContext';
 
 const ROLES   = ['warden','cook','security','receptionist','accountant','maintenance','cleaner','other'];
 const SHIFTS  = ['day','night','both'];
@@ -15,6 +16,7 @@ const ROLE_COLOR = {
 };
 
 export default function Staff() {
+  const toast    = useToast();
   const [staff,   setStaff]   = useState([]);
   const [stats,   setStats]   = useState(null);
   const [modal,   setModal]   = useState(false);
@@ -47,7 +49,7 @@ export default function Staff() {
 
   const del = async id => {
     if (!window.confirm('Remove this staff member?')) return;
-    try { await api.deleteStaff(id); load(); } catch (err) { alert(err.message); }
+    try { await api.deleteStaff(id); load(); toast.success('Staff member removed'); } catch (err) { toast.error(err.message); }
   };
 
   const filtered = filter === 'all' ? staff : staff.filter(s => s.role === filter);
@@ -171,8 +173,11 @@ export default function Staff() {
             </div>
           ))}
           {filtered.length === 0 && (
-            <div style={{ gridColumn:'1/-1', textAlign:'center', padding:60, color:'var(--text-3)' }}>
-              No staff found.
+            <div className="empty-state" style={{ gridColumn:'1/-1' }}>
+              <div className="empty-state-icon">👨‍💼</div>
+              <h4>No staff found</h4>
+              <p>{filter !== 'all' ? `No ${filter} staff members found.` : 'Add your first staff member to get started.'}</p>
+              {filter === 'all' && <button className="btn btn-primary btn-sm" onClick={openNew}>+ Add Staff</button>}
             </div>
           )}
         </div>

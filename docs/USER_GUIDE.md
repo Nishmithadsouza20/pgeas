@@ -381,4 +381,4 @@ This wipes all existing data and creates fresh demo accounts.
 
 ---
 
-*PGease — College Project by Bhuvan Mahadev*
+*PGease — College Project by Nishmitha Pawan*

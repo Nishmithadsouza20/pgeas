@@ -173,6 +173,20 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
 
       {/* Footer */}
       <div className="sidebar-footer">
+        {!collapsed && (
+          <div style={{
+            margin:'0 0 10px', padding:'7px 10px', borderRadius:8,
+            background:'rgba(255,107,53,0.1)', border:'1px solid rgba(255,107,53,0.25)',
+            textAlign:'center',
+          }}>
+            <div style={{ fontSize:9, color:'var(--text-3)', fontWeight:600, letterSpacing:1, textTransform:'uppercase', marginBottom:2 }}>
+              College Project by
+            </div>
+            <div style={{ fontSize:12, fontWeight:800, color:'#FF6B35', letterSpacing:0.3 }}>
+              Nishmitha Pawan
+            </div>
+          </div>
+        )}
         <button className="theme-btn" onClick={toggle} title="Toggle theme">
           <span className="nav-icon">{theme === 'dark' ? '☀️' : '🌙'}</span>
           {!collapsed && <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>}

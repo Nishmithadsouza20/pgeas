@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import PayGateway from './PayGateway';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -8,6 +9,7 @@ const STATUS_BADGE = { paid:'success', pending:'warning', overdue:'danger' };
 
 export default function Payments() {
   const { user }  = useAuth();
+  const toast     = useToast();
   const isAdmin   = ['super_admin','owner'].includes(user?.role);
 
   const now = new Date();
@@ -44,11 +46,11 @@ export default function Payments() {
   const openNew  = () => { setForm({ resident_id:'', month, year, amount:'', status:'pending', penalty:0 }); setError(''); setModal(true); };
 
   const markPaid = async id => {
-    try { await api.updatePayment(id, { status:'paid' }); load(); } catch(err) { alert(err.message); }
+    try { await api.updatePayment(id, { status:'paid' }); load(); toast.success('Payment marked as paid'); } catch(err) { toast.error(err.message); }
   };
 
   const remind = async id => {
-    try { await api.remindPayment(id); load(); alert('Reminder sent.'); } catch(err) { alert(err.message); }
+    try { await api.remindPayment(id); load(); toast.success('Reminder sent successfully'); } catch(err) { toast.error(err.message); }
   };
 
   const submit = async e => {
@@ -65,7 +67,8 @@ export default function Payments() {
     } catch(err) { setError(err.message); }
   };
 
-  const years = [2023, 2024, 2025, 2026];
+  const curYear = new Date().getFullYear();
+  const years = Array.from({ length: curYear - 2022 }, (_, i) => 2023 + i);
 
   return (
     <>
@@ -169,11 +172,14 @@ export default function Payments() {
                   </tr>
                 ))}
                 {payments.length === 0 && (
-                  <tr>
-                    <td colSpan={8} style={{ textAlign:'center', padding:48, color:'var(--text-3)' }}>
-                      No payment records found.
-                    </td>
-                  </tr>
+                  <tr><td colSpan={8}>
+                    <div className="empty-state">
+                      <div className="empty-state-icon">💳</div>
+                      <h4>No payment records</h4>
+                      <p>No payments found for the selected month and filters.</p>
+                      {isAdmin && <button className="btn btn-primary btn-sm" onClick={openNew}>+ Add Payment</button>}
+                    </div>
+                  </td></tr>
                 )}
               </tbody>
             </table>

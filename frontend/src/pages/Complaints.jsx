@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const CATS  = ['electrical','plumbing','cleanliness','wifi','other'];
 const EMPTY = { category:'electrical', description:'', priority:'medium' };
@@ -10,6 +11,7 @@ const STATUS_COLOR   = { open:'danger', 'in-progress':'warning', resolved:'succe
 
 export default function Complaints() {
   const { user }  = useAuth();
+  const toast     = useToast();
   const isAdmin   = ['super_admin','owner'].includes(user?.role);
 
   const [complaints, setComplaints] = useState([]);
@@ -50,8 +52,8 @@ export default function Complaints() {
 
   const submitResp = async e => {
     e.preventDefault();
-    try { await api.updateComplaint(selected.id, respForm); setRespModal(false); load(); }
-    catch(err) { alert(err.message); }
+    try { await api.updateComplaint(selected.id, respForm); setRespModal(false); load(); toast.success('Complaint updated'); }
+    catch(err) { toast.error(err.message); }
   };
 
   return (
@@ -156,8 +158,10 @@ export default function Complaints() {
             </div>
           ))}
           {complaints.length === 0 && (
-            <div style={{ gridColumn:'1/-1', textAlign:'center', padding:60, color:'var(--text-3)' }}>
-              No complaints found.
+            <div className="empty-state" style={{ gridColumn:'1/-1' }}>
+              <div className="empty-state-icon">📢</div>
+              <h4>No complaints</h4>
+              <p>{filter || catFilter ? 'No complaints match the current filters.' : 'No complaints have been raised yet.'}</p>
             </div>
           )}
         </div>

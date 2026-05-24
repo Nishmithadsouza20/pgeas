@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const CATS = ['general','payment','maintenance','rules','security','important'];
 const EMPTY = { title:'', content:'', category:'general', is_important:0 };
@@ -11,6 +12,7 @@ const CAT_COLOR = {
 
 export default function Notices() {
   const { user }  = useAuth();
+  const toast     = useToast();
   const isAdmin   = ['super_admin','owner'].includes(user?.role);
 
   const [notices,   setNotices]   = useState([]);
@@ -41,7 +43,7 @@ export default function Notices() {
 
   const del = async id => {
     if (!window.confirm('Remove this notice?')) return;
-    try { await api.deleteNotice(id); load(); } catch(err) { alert(err.message); }
+    try { await api.deleteNotice(id); load(); toast.success('Notice removed'); } catch(err) { toast.error(err.message); }
   };
 
   const markRead = async id => {
@@ -87,7 +89,12 @@ export default function Notices() {
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
           {filtered.length === 0 && (
-            <div style={{ textAlign:'center', padding:60, color:'var(--text-3)' }}>No notices found.</div>
+            <div className="empty-state">
+              <div className="empty-state-icon">📌</div>
+              <h4>No notices</h4>
+              <p>{catFilter ? 'No notices in this category.' : 'No notices have been posted yet.'}</p>
+              {isAdmin && !catFilter && <button className="btn btn-primary btn-sm" onClick={openNew}>+ Post Notice</button>}
+            </div>
           )}
           {filtered.map(n => (
             <div key={n.id} className="card"

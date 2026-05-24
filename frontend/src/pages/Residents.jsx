@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api, exportCSV } from '../utils/api';
+import { useToast } from '../context/ToastContext';
 
 const FOOD_PREF = { veg:'🥦', nonveg:'🍗', jain:'🌿', vegan:'🌱' };
 const FOOD_COLOR = { veg:'#22c55e', nonveg:'#ef4444', jain:'#8b5cf6', vegan:'#06b6d4' };
@@ -14,6 +15,8 @@ const EMPTY = {
 
 export default function Residents() {
   const location = useLocation();
+  const navigate  = useNavigate();
+  const toast     = useToast();
   const [residents, setResidents] = useState([]);
   const [rooms,     setRooms]     = useState([]);
   const [search,    setSearch]    = useState('');
@@ -41,7 +44,7 @@ export default function Residents() {
   useEffect(() => {
     if (!location.state?.openId || loading) return;
     const r = residents.find(r => String(r.id) === String(location.state.openId));
-    if (r) openEdit(r);
+    if (r) { openEdit(r); navigate(location.pathname, { replace: true, state: {} }); }
   }, [residents, loading, location.state]);
 
   const handle   = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -74,14 +77,15 @@ export default function Residents() {
 
   const del = async id => {
     if (!window.confirm('Remove this resident?')) return;
-    try { await api.deleteResident(id); load(); } catch (err) { alert(err.message); }
+    try { await api.deleteResident(id); load(); toast.success('Resident removed'); } catch (err) { toast.error(err.message); }
   };
 
   const toggleAway = async (r) => {
     try {
       await api.updateResident(r.id, { is_away: r.is_away ? 0 : 1 });
       load();
-    } catch (err) { alert(err.message); }
+      toast.success(r.is_away ? 'Marked as present' : 'Marked as away');
+    } catch (err) { toast.error(err.message); }
   };
 
   let displayed = foodFilter ? residents.filter(r => r.food_preference === foodFilter) : residents;
@@ -194,11 +198,16 @@ export default function Residents() {
                   </tr>
                 ))}
                 {displayed.length === 0 && (
-                  <tr>
-                    <td colSpan={8} style={{ textAlign:'center', padding:48, color:'var(--text-3)' }}>
-                      No residents found.
-                    </td>
-                  </tr>
+                  <tr><td colSpan={8}>
+                    <div className="empty-state">
+                      <div className="empty-state-icon">👥</div>
+                      <h4>No residents found</h4>
+                      <p>{search || occ || foodFilter || awayFilter ? 'No residents match your current filters.' : 'Add your first resident to get started.'}</p>
+                      {!search && !occ && !foodFilter && !awayFilter && (
+                        <button className="btn btn-primary btn-sm" onClick={openNew}>+ Add Resident</button>
+                      )}
+                    </div>
+                  </td></tr>
                 )}
               </tbody>
             </table>

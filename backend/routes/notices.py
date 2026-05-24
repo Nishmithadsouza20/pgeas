@@ -104,10 +104,7 @@ def mark_read(nid):
     if not company_id:
         return jsonify({'message': 'ok'})
     db = get_company_db(company_id)
-    try:
-        db.execute('INSERT OR IGNORE INTO notice_reads (notice_id,user_id) VALUES (?,?)', [nid, uid])
-        db.commit()
-    except Exception:
-        pass
+    db.execute('INSERT OR IGNORE INTO notice_reads (notice_id,user_id) VALUES (?,?)', [nid, uid])
+    db.commit()
     db.close()
     return jsonify({'message': 'Marked as read'})

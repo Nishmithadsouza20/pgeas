@@ -86,9 +86,12 @@ export function AuthProvider({ children }) {
 
   const refreshUser = async () => {
     if (!token) return;
-    const res  = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } });
-    const data = await res.json();
-    if (res.ok) setUser(data);
+    try {
+      const res  = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { logout(); return; }
+      const data = await res.json();
+      setUser(data);
+    } catch { logout(); }
   };
 
   const refreshCompany = async () => {

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Navbar';
 
-import Login      from './pages/Login';
+import Login          from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
 
 import Dashboard  from './pages/Dashboard';
 import Rooms      from './pages/Rooms';
@@ -75,7 +77,8 @@ function AppRoutes() {
   return (
     <Shell>
       <Routes>
-        <Route path="/login"    element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/login"           element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/forgot-password" element={user ? <Navigate to="/dashboard" /> : <ForgotPassword />} />
 
 
         <Route path="/dashboard"  element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -110,9 +113,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </ToastProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
