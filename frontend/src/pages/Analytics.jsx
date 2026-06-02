@@ -7,18 +7,28 @@ import {
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
-const COLORS = ['#FF6B35','#22c55e','#3b82f6','#f59e0b','#8b5cf6','#ec4899'];
+const COLORS = ['var(--accent)','var(--success)','var(--info)','var(--warning)','var(--purple)','#ec4899'];
+const PLAN_COLORS = { basic:'var(--info)', premium:'var(--accent)', enterprise:'var(--purple)' };
+const PLAN_COLORS_HEX = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
 const TT = { background:'var(--bg-card)', border:'1px solid var(--border)', color:'var(--text-1)', borderRadius:8, fontSize:12 };
 const AX = { tick:{ fill:'var(--text-3)', fontSize:11 } };
 
 function ChartCard({ title, sub, children }) {
   return (
     <div className="card" style={{ padding:20 }}>
-      <div style={{ fontWeight:700, color:'var(--text-1)', fontSize:14 }}>{title}</div>
+      <div style={{ fontWeight:700, color:'var(--text-1)', fontSize:14, marginBottom: sub ? 4 : 16 }}>{title}</div>
       {sub && <div style={{ fontSize:11, color:'var(--text-3)', marginBottom:14 }}>{sub}</div>}
-      {!sub && <div style={{ marginBottom:16 }} />}
       {children}
     </div>
+  );
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div style={{
+      fontSize:10, fontWeight:700, letterSpacing:1.2, textTransform:'uppercase',
+      color:'var(--text-3)', marginBottom:10, paddingLeft:2,
+    }}>{children}</div>
   );
 }
 
@@ -63,32 +73,40 @@ function PlatformAnalytics() {
 
   return (
     <>
+      {/* ── KPI Row ── */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:16, marginBottom:24 }}>
         {[
-          { label:'Total Clients',  value: companies.length,                   icon:'🏢', color:'var(--accent)' },
-          { label:'MRR',            value:`₹${(mrr/1000).toFixed(1)}k`,        icon:'💰', color:'var(--success)' },
-          { label:'ARR',            value:`₹${(mrr*12/100000).toFixed(1)}L`,   icon:'📈', color:'#FF6B35' },
-          { label:'Occupancy',      value:`${occupancyPct}%`,                  icon:'🏠', color:'#8b5cf6' },
+          { label:'Total Clients',  value: companies.length,                 icon:'🏢', color:'var(--accent)',   bg:'rgba(255,107,53,0.1)',  border:'rgba(255,107,53,0.25)' },
+          { label:'MRR',            value:`₹${(mrr/1000).toFixed(1)}k`,      icon:'💰', color:'var(--success)',  bg:'rgba(34,197,94,0.1)',   border:'rgba(34,197,94,0.25)'  },
+          { label:'ARR',            value:`₹${(mrr*12/100000).toFixed(1)}L`, icon:'📈', color:'var(--info)',     bg:'rgba(59,130,246,0.1)',  border:'rgba(59,130,246,0.25)' },
+          { label:'Occupancy',      value:`${occupancyPct}%`,                icon:'🏠', color:'var(--purple)',   bg:'rgba(139,92,246,0.1)',  border:'rgba(139,92,246,0.25)' },
         ].map(k => (
-          <div key={k.label} className="stat-card">
+          <div key={k.label} className="stat-card" style={{
+            borderTop:`3px solid ${k.color}`,
+          }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
               <div>
                 <div className="stat-label">{k.label}</div>
                 <div className="stat-value" style={{ color:k.color }}>{k.value}</div>
               </div>
-              <span style={{ fontSize:26, opacity:0.65 }}>{k.icon}</span>
+              <div style={{
+                width:40, height:40, borderRadius:10, display:'flex', alignItems:'center',
+                justifyContent:'center', fontSize:20, background:k.bg, border:`1px solid ${k.border}`,
+              }}>{k.icon}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'3fr 2fr', gap:16, marginBottom:16 }}>
+      {/* ── Revenue & Distribution ── */}
+      <SectionLabel>Revenue & Distribution</SectionLabel>
+      <div style={{ display:'grid', gridTemplateColumns:'3fr 2fr', gap:16, marginBottom:24 }}>
         <ChartCard title="MRR Growth — Last 6 Months" sub="Cumulative active subscription revenue">
           <ResponsiveContainer width="100%" height={220}>
             <AreaChart data={activity.mrr_trend||[]}>
               <defs>
                 <linearGradient id="mrrGp" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#FF6B35" stopOpacity={0.3} />
+                  <stop offset="5%" stopColor="#FF6B35" stopOpacity={0.25} />
                   <stop offset="95%" stopColor="#FF6B35" stopOpacity={0} />
                 </linearGradient>
               </defs>
@@ -96,17 +114,20 @@ function PlatformAnalytics() {
               <XAxis dataKey="month" {...AX} />
               <YAxis {...AX} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
               <Tooltip formatter={v => `₹${v.toLocaleString()}`} contentStyle={TT} />
-              <Area type="monotone" dataKey="mrr" stroke="#FF6B35" strokeWidth={2.5} fill="url(#mrrGp)" name="MRR" />
+              <Area type="monotone" dataKey="mrr" stroke="var(--accent)" strokeWidth={2.5} fill="url(#mrrGp)" name="MRR" />
             </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Plan Distribution" sub="">
+        <ChartCard title="Plan Distribution" sub="Subscribers per tier">
           <ResponsiveContainer width="100%" height={220}>
             <PieChart>
               <Pie data={byPlan} dataKey="value" nameKey="name" cx="50%" cy="50%"
-                outerRadius={80} label={({ name, value }) => `${name} (${value})`} labelLine={false}>
-                {byPlan.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                outerRadius={76} innerRadius={36}
+                label={({ name, value }) => `${name} (${value})`} labelLine={false}>
+                {byPlan.map((entry, i) => (
+                  <Cell key={i} fill={PLAN_COLORS_HEX[entry.name.toLowerCase()] || PLAN_COLORS_HEX.basic} />
+                ))}
               </Pie>
               <Tooltip contentStyle={TT} />
               <Legend wrapperStyle={{ color:'var(--text-2)', fontSize:12 }} />
@@ -115,7 +136,9 @@ function PlatformAnalytics() {
         </ChartCard>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginBottom:16 }}>
+      {/* ── Growth & Geography ── */}
+      <SectionLabel>Growth & Geography</SectionLabel>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginBottom:24 }}>
         <ChartCard title="Monthly New Signups" sub="Clients registered per month">
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={monthlySigns}>
@@ -134,38 +157,40 @@ function PlatformAnalytics() {
               <XAxis type="number" {...AX} />
               <YAxis dataKey="city" type="category" {...AX} width={80} />
               <Tooltip contentStyle={TT} />
-              <Bar dataKey="count" fill="#22c55e" radius={[0,4,4,0]} name="Clients" />
+              <Bar dataKey="count" fill="var(--success)" radius={[0,4,4,0]} name="Clients" />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
+      {/* ── Platform & Revenue Metrics ── */}
+      <SectionLabel>Platform & Revenue Metrics</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:16 }}>
-        <ChartCard title="Platform Operations" sub="">
+        <ChartCard title="Platform Operations">
           {[
-            { label:'Total Rooms across all PGs', value:stats?.total_rooms||0,      color:'var(--accent)' },
+            { label:'Total Rooms across all PGs', value:stats?.total_rooms||0,      color:'var(--accent)'  },
             { label:'Active Residents',           value:stats?.total_residents||0,  color:'var(--success)' },
             { label:'Occupied Rooms',             value:stats?.occupied_rooms||0,   color:'var(--warning)' },
             { label:'Platform Occupancy',         value:`${occupancyPct}%`,         color: occupancyPct>=70?'var(--success)':'var(--warning)' },
-            { label:'Open Complaints',            value:stats?.open_complaints||0,  color:'var(--danger)' },
+            { label:'Open Complaints',            value:stats?.open_complaints||0,  color:'var(--danger)'  },
           ].map(m => (
-            <div key={m.label} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom:'1px solid var(--border)', fontSize:13 }}>
+            <div key={m.label} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'9px 0', borderBottom:'1px solid var(--border)', fontSize:13 }}>
               <span style={{ color:'var(--text-2)' }}>{m.label}</span>
               <span style={{ fontWeight:700, color:m.color }}>{m.value}</span>
             </div>
           ))}
         </ChartCard>
 
-        <ChartCard title="Revenue Metrics" sub="">
+        <ChartCard title="Revenue Metrics">
           {[
-            { label:'Active Subscriptions',  value:active.length,                              color:'var(--success)' },
-            { label:'Trial Subscriptions',   value:companies.filter(c=>c.status==='trial').length, color:'var(--warning)' },
-            { label:'Monthly Recurring Revenue', value:`₹${mrr.toLocaleString()}`,            color:'#FF6B35' },
-            { label:'Annual Run Rate',       value:`₹${(mrr*12/100000).toFixed(1)}L`,          color:'var(--success)' },
-            { label:'Avg MRR per Client',    value: active.length ? `₹${Math.round(mrr/active.length).toLocaleString()}` : '—', color:'var(--accent)' },
-            { label:'Trial Conversion',      value:`${companies.length ? Math.round(active.length/companies.length*100) : 0}%`, color:'#8b5cf6' },
+            { label:'Active Subscriptions',       value:active.length,                                                     color:'var(--success)' },
+            { label:'Trial Subscriptions',        value:companies.filter(c=>c.status==='trial').length,                    color:'var(--warning)' },
+            { label:'Monthly Recurring Revenue',  value:`₹${mrr.toLocaleString()}`,                                       color:'var(--accent)'  },
+            { label:'Annual Run Rate',            value:`₹${(mrr*12/100000).toFixed(1)}L`,                                color:'var(--info)'    },
+            { label:'Avg MRR per Client',         value:active.length ? `₹${Math.round(mrr/active.length).toLocaleString()}` : '—', color:'var(--accent)'  },
+            { label:'Trial Conversion',           value:`${companies.length ? Math.round(active.length/companies.length*100) : 0}%`, color:'var(--purple)'  },
           ].map(m => (
-            <div key={m.label} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom:'1px solid var(--border)', fontSize:13 }}>
+            <div key={m.label} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'9px 0', borderBottom:'1px solid var(--border)', fontSize:13 }}>
               <span style={{ color:'var(--text-2)' }}>{m.label}</span>
               <span style={{ fontWeight:700, color:m.color }}>{m.value}</span>
             </div>

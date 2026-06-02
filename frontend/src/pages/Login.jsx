@@ -136,8 +136,7 @@ export default function Login() {
             padding:'6px 14px', borderRadius:20,
             background:'rgba(255,107,53,0.12)', border:'1px solid rgba(255,107,53,0.3)',
           }}>
-            <span style={{ fontSize:11, color:'#94a3b8' }}>College Project by</span>
-            <span style={{ fontSize:12, fontWeight:800, color:'#FF6B35', letterSpacing:0.3 }}>Nishmitha Pawan</span>
+            <span style={{ fontSize:11, color:'#94a3b8' }}>College Project</span>
           </div>
         </div>
       </div>

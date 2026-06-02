@@ -31,6 +31,7 @@ import Deposits    from './pages/Deposits';
 import Reports     from './pages/Reports';
 import Enquiries      from './pages/Enquiries';
 import MealAttendance from './pages/MealAttendance';
+import Plans          from './pages/Plans';
 
 const PLAN_UPGRADE_COLORS = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
 
@@ -102,6 +103,7 @@ function AppRoutes() {
         <Route path="/reports"     element={<ProtectedRoute roles={['owner']}><Reports /></ProtectedRoute>} />
         <Route path="/enquiries"    element={<ProtectedRoute roles={['owner']}><Enquiries /></ProtectedRoute>} />
         <Route path="/meals"     element={<ProtectedRoute roles={['owner']}><MealAttendance /></ProtectedRoute>} />
+        <Route path="/plans"     element={<ProtectedRoute roles={['super_admin']}><Plans /></ProtectedRoute>} />
 
         <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
       </Routes>

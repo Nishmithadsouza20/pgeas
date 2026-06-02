@@ -18,6 +18,7 @@ const ADMIN_NAV = [
   { label:'PLATFORM', items:[
     { path:'/dashboard', icon:'🏢', label:'Platform Home' },
     { path:'/analytics', icon:'📈', label:'Analytics' },
+    { path:'/plans',     icon:'💎', label:'Plans & Pricing' },
   ]},
 ];
 
@@ -180,10 +181,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
             textAlign:'center',
           }}>
             <div style={{ fontSize:9, color:'var(--text-3)', fontWeight:600, letterSpacing:1, textTransform:'uppercase', marginBottom:2 }}>
-              College Project by
-            </div>
-            <div style={{ fontSize:12, fontWeight:800, color:'#FF6B35', letterSpacing:0.3 }}>
-              Nishmitha Pawan
+              College Project
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 # PGease — Smart Accommodation Management Platform
 
-> **College Internship Project** · Built by **Nishmitha Pawan**
+> **College Internship Project**
 
 A full-stack, multi-tenant SaaS platform for managing PGs, hostels, lodges, dormitories, and apartments — with role-based portals for Super Admins, Property Owners, and Residents.
 
@@ -349,4 +349,4 @@ git push
 
 ---
 
-*PGease — College Project by Nishmitha 
+*PGease — College Project*

@@ -26,6 +26,7 @@ const TITLES = {
   '/reports':     ['Reports',            'P&L report, rent roll, defaulters and occupancy'],
   '/enquiries':   ['Enquiries',          'Manage prospective tenant leads and follow-ups'],
   '/meals':       ['Meal Attendance',    'Track daily breakfast, lunch and dinner per resident'],
+  '/plans':       ['Plans & Pricing',    'Subscription plan tiers, features and subscriber breakdown'],
 };
 
 export default function Topbar({ onHamburger }) {
