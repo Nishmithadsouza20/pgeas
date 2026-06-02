@@ -7,11 +7,13 @@ import {
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
-const COLORS = ['var(--accent)','var(--success)','var(--info)','var(--warning)','var(--purple)','#ec4899'];
-const PLAN_COLORS = { basic:'var(--info)', premium:'var(--accent)', enterprise:'var(--purple)' };
+// All hardcoded hex — CSS variables don't work reliably in SVG fill/stroke attributes
+const COLORS = ['#FF6B35','#22c55e','#3b82f6','#f59e0b','#8b5cf6','#ec4899'];
 const PLAN_COLORS_HEX = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
-const TT = { background:'var(--bg-card)', border:'1px solid var(--border)', color:'var(--text-1)', borderRadius:8, fontSize:12 };
-const AX = { tick:{ fill:'var(--text-3)', fontSize:11 } };
+const GRID  = '#2e2e42';
+const TT    = { background:'#1e1e2e', border:'1px solid #3d3d5c', color:'#e2e8f0', borderRadius:8, fontSize:12, boxShadow:'0 8px 24px rgba(0,0,0,0.5)' };
+const AX    = { tick:{ fill:'#9999B0', fontSize:11 } };
+const LEG   = { color:'#9999B0', fontSize:12 };
 
 function ChartCard({ title, sub, children }) {
   return (
@@ -106,15 +108,15 @@ function PlatformAnalytics() {
             <AreaChart data={activity.mrr_trend||[]}>
               <defs>
                 <linearGradient id="mrrGp" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#FF6B35" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#FF6B35" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#FF6B35" stopOpacity={0.5} />
+                  <stop offset="95%" stopColor="#FF6B35" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
               <XAxis dataKey="month" {...AX} />
               <YAxis {...AX} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
               <Tooltip formatter={v => `₹${v.toLocaleString()}`} contentStyle={TT} />
-              <Area type="monotone" dataKey="mrr" stroke="var(--accent)" strokeWidth={2.5} fill="url(#mrrGp)" name="MRR" />
+              <Area type="monotone" dataKey="mrr" stroke="#FF6B35" strokeWidth={2.5} fill="url(#mrrGp)" name="MRR" />
             </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -130,7 +132,7 @@ function PlatformAnalytics() {
                 ))}
               </Pie>
               <Tooltip contentStyle={TT} />
-              <Legend wrapperStyle={{ color:'var(--text-2)', fontSize:12 }} />
+              <Legend wrapperStyle={LEG} />
             </PieChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -142,11 +144,11 @@ function PlatformAnalytics() {
         <ChartCard title="Monthly New Signups" sub="Clients registered per month">
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={monthlySigns}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
               <XAxis dataKey="month" {...AX} />
               <YAxis {...AX} allowDecimals={false} />
               <Tooltip contentStyle={TT} />
-              <Bar dataKey="signups" fill="var(--accent)" radius={[4,4,0,0]} name="New Clients" />
+              <Bar dataKey="signups" fill="#FF6B35" radius={[4,4,0,0]} name="New Clients" />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -157,7 +159,7 @@ function PlatformAnalytics() {
               <XAxis type="number" {...AX} />
               <YAxis dataKey="city" type="category" {...AX} width={80} />
               <Tooltip contentStyle={TT} />
-              <Bar dataKey="count" fill="var(--success)" radius={[0,4,4,0]} name="Clients" />
+              <Bar dataKey="count" fill="#22c55e" radius={[0,4,4,0]} name="Clients" />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -256,11 +258,11 @@ function OwnerAnalytics() {
         <ChartCard title="Occupancy Trend — Last 6 Months">
           <ResponsiveContainer width="100%" height={230}>
             <LineChart data={occ}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
               <XAxis dataKey="month" {...AX} />
               <YAxis {...AX} />
               <Tooltip contentStyle={TT} />
-              <Line type="monotone" dataKey="occupancy" stroke="var(--accent)" strokeWidth={2.5} dot={{ fill:'var(--accent)', r:4 }} name="Residents" />
+              <Line type="monotone" dataKey="occupancy" stroke="#FF6B35" strokeWidth={2.5} dot={{ fill:'#FF6B35', r:4 }} name="Residents" />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -268,7 +270,7 @@ function OwnerAnalytics() {
         <ChartCard title="Revenue Trend — Last 6 Months">
           <ResponsiveContainer width="100%" height={230}>
             <BarChart data={rev}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
               <XAxis dataKey="month" {...AX} />
               <YAxis {...AX} tickFormatter={v => `₹${(v/1000).toFixed(0)}k`} />
               <Tooltip formatter={v => [`₹${v.toLocaleString()}`, 'Revenue']} contentStyle={TT} />
@@ -287,7 +289,7 @@ function OwnerAnalytics() {
                 {compBreak.map((_, i) => <Cell key={i} fill={COLORS[i%COLORS.length]} />)}
               </Pie>
               <Tooltip contentStyle={TT} />
-              <Legend wrapperStyle={{ color:'var(--text-2)', fontSize:12 }} />
+              <Legend wrapperStyle={LEG} />
             </PieChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -300,7 +302,7 @@ function OwnerAnalytics() {
                 {ratio.map((_, i) => <Cell key={i} fill={COLORS[i%COLORS.length]} />)}
               </Pie>
               <Tooltip contentStyle={TT} />
-              <Legend wrapperStyle={{ color:'var(--text-2)', fontSize:12 }} />
+              <Legend wrapperStyle={LEG} />
             </PieChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -316,7 +318,7 @@ function OwnerAnalytics() {
                 {rooms.map((_, i) => <Cell key={i} fill={COLORS[i%COLORS.length]} />)}
               </Pie>
               <Tooltip contentStyle={TT} />
-              <Legend wrapperStyle={{ color:'var(--text-2)', fontSize:12 }} />
+              <Legend wrapperStyle={LEG} />
             </PieChart>
           </ResponsiveContainer>
         </ChartCard>
