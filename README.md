@@ -59,7 +59,7 @@ npm start             # React dev server on http://localhost:3000
 
 ```bash
 cd backend
-python seed.py        # wipes and recreates all 15 companies + 31 accounts
+python seed.py        # wipes and recreates all 10 companies + 21 accounts
 ```
 
 ---
@@ -76,7 +76,7 @@ All passwords are fixed so you can log in immediately after seeding.
 
 ---
 
-### Owner Accounts (15 companies)
+### Owner Accounts (10 companies)
 
 **Password for all owners: `Owner@123`**
 
@@ -86,7 +86,6 @@ All passwords are fixed so you can log in immediately after seeding.
 |------|-------|---------|------|--------|
 | Basic | `owner.pg.basic@pgease.com` | Cozy Nest PG | Mysore | Active |
 | Premium | `owner.pg.premium@pgease.com` | Sunrise PG Homes | Bangalore | Active |
-| Enterprise | `owner.pg.enterprise@pgease.com` | Royal Comfort PG | Bangalore | Active |
 
 #### Hostel
 
@@ -94,7 +93,6 @@ All passwords are fixed so you can log in immediately after seeding.
 |------|-------|---------|------|--------|
 | Basic | `owner.hostel.basic@pgease.com` | Budget Nest Hostel | Pune | Trial |
 | Premium | `owner.hostel.premium@pgease.com` | Green Valley Hostel | Mumbai | Active |
-| Enterprise | `owner.hostel.enterprise@pgease.com` | Elite Stay Hostel | Hyderabad | Active |
 
 #### Lodge
 
@@ -102,7 +100,6 @@ All passwords are fixed so you can log in immediately after seeding.
 |------|-------|---------|------|--------|
 | Basic | `owner.lodge.basic@pgease.com` | City Budget Lodge | Chennai | Active |
 | Premium | `owner.lodge.premium@pgease.com` | Metro Lodge | Bangalore | Active |
-| Enterprise | `owner.lodge.enterprise@pgease.com` | Grand Stay Lodge | Delhi | Active |
 
 #### Dormitory
 
@@ -110,7 +107,6 @@ All passwords are fixed so you can log in immediately after seeding.
 |------|-------|---------|------|--------|
 | Basic | `owner.dorm.basic@pgease.com` | Campus Dorms | Manipal | Trial |
 | Premium | `owner.dorm.premium@pgease.com` | Metro Dormitory | Hyderabad | Active |
-| Enterprise | `owner.dorm.enterprise@pgease.com` | Premier Dorms | Chennai | Active |
 
 #### Apartment
 
@@ -118,11 +114,10 @@ All passwords are fixed so you can log in immediately after seeding.
 |------|-------|---------|------|--------|
 | Basic | `owner.apartment.basic@pgease.com` | Urban Budget Flats | Noida | Active |
 | Premium | `owner.apartment.premium@pgease.com` | Urban Apartments | Delhi | Active |
-| Enterprise | `owner.apartment.enterprise@pgease.com` | Prestige Residences | Mumbai | Active |
 
 ---
 
-### Resident Accounts (15 residents, one per company)
+### Resident Accounts (10 residents, one per company)
 
 **Password for all residents: `Resident@123`**
 
@@ -130,19 +125,14 @@ All passwords are fixed so you can log in immediately after seeding.
 |-------|--------------|---------|
 | `resident.pg.basic@pgease.com` | Arjun Sharma | Cozy Nest PG |
 | `resident.pg.premium@pgease.com` | Priya Mehta | Sunrise PG Homes |
-| `resident.pg.enterprise@pgease.com` | Rohan Gupta | Royal Comfort PG |
 | `resident.hostel.basic@pgease.com` | Rahul Kumar | Budget Nest Hostel |
 | `resident.hostel.premium@pgease.com` | Sneha Iyer | Green Valley Hostel |
-| `resident.hostel.enterprise@pgease.com` | Vikram Reddy | Elite Stay Hostel |
 | `resident.lodge.basic@pgease.com` | Kavya Reddy | City Budget Lodge |
 | `resident.lodge.premium@pgease.com` | Aditya Nair | Metro Lodge |
-| `resident.lodge.enterprise@pgease.com` | Pooja Desai | Grand Stay Lodge |
 | `resident.dorm.basic@pgease.com` | Mohammed Ali | Campus Dorms |
 | `resident.dorm.premium@pgease.com` | Deepa Krishnan | Metro Dormitory |
-| `resident.dorm.enterprise@pgease.com` | Siddharth Rao | Premier Dorms |
 | `resident.apartment.basic@pgease.com` | Sunita Rao | Urban Budget Flats |
 | `resident.apartment.premium@pgease.com` | Karan Joshi | Urban Apartments |
-| `resident.apartment.enterprise@pgease.com` | Meera Pillai | Prestige Residences |
 
 ---
 
@@ -151,8 +141,7 @@ All passwords are fixed so you can log in immediately after seeding.
 | Plan | Price | Max Rooms | Included Features |
 |------|-------|-----------|------------------|
 | **Basic** | ₹2,999/mo | 50 | Rooms · Residents · Payments · Complaints · Visitors · Gate Pass · Mess Menu · Enquiries |
-| **Premium** | ₹4,999/mo | 200 | Everything in Basic + Analytics · Invoices · Staff · Payroll · Security Deposits · Expenses |
-| **Enterprise** | ₹7,999/mo | Unlimited | Everything in Premium + Food Inventory · Full Reports · Meal Attendance · Priority Support |
+| **Premium** | ₹4,999/mo | Unlimited | Everything in Basic + Analytics, Invoices, Staff, Payroll, Deposits, Expenses, Unlimited rooms, Custom branding |
 
 ---
 

@@ -25,8 +25,8 @@ function LogoDisplay({ value, size = 64, style = {} }) {
   return <span style={{ fontSize: size * 0.5, lineHeight:1 }}>{value || '🏠'}</span>;
 }
 
-const PLAN_COLOR = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
-const PLAN_AMT   = { basic:2999, premium:4999, enterprise:7999 };
+const PLAN_COLOR = { basic:'#3b82f6', premium:'#FF6B35' };
+const PLAN_AMT   = { basic:2999, premium:4999 };
 
 const PLAN_FEATURES = {
   basic: {
@@ -54,7 +54,7 @@ const PLAN_FEATURES = {
   premium: {
     label: 'Premium', price: '₹4,999',
     features: [
-      'Up to 200 rooms',
+      'Unlimited rooms',
       'Everything in Basic',
       'Full analytics & revenue charts',
       'Invoice generation',
@@ -64,26 +64,9 @@ const PLAN_FEATURES = {
       'Expense tracking',
       'Meal attendance tracking',
       'Occupancy & P&L reports',
-    ],
-    locked: [
-      'Unlimited rooms',
-      'Priority support',
-      'Advanced rent roll reports',
-      'Custom branding (domain)',
-    ],
-  },
-  enterprise: {
-    label: 'Enterprise', price: '₹7,999',
-    features: [
-      'Unlimited rooms',
-      'Everything in Premium',
-      'Priority support (4-hour SLA)',
-      'Advanced rent roll & defaulters',
-      'Food inventory management',
-      'Dedicated account manager',
+      'Priority support & SLA',
       'Custom branding',
-      'Data export (CSV)',
-      'Multi-floor management',
+      'Advanced rent roll & reports',
     ],
     locked: [],
   },
@@ -95,7 +78,7 @@ function PlanSection({ company }) {
   const planColor = PLAN_COLOR[plan] || 'var(--accent)';
   const amt       = company.subscription_amount || PLAN_AMT[plan] || 2999;
 
-  const nextPlan  = plan === 'basic' ? 'premium' : plan === 'premium' ? 'enterprise' : null;
+  const nextPlan  = plan === 'basic' ? 'premium' : null;
   const nextInfo  = nextPlan ? PLAN_FEATURES[nextPlan] : null;
   const nextColor = nextPlan ? PLAN_COLOR[nextPlan] : null;
 

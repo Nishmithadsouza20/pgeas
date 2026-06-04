@@ -54,15 +54,9 @@ export default function Topbar({ onHamburger }) {
             {company?.plan && user?.role === 'owner' && (
               <span style={{
                 fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20,
-                background: company.plan === 'enterprise' ? 'rgba(139,92,246,0.12)' :
-                            company.plan === 'premium'    ? 'rgba(255,107,53,0.12)'  :
-                                                            'rgba(59,130,246,0.12)',
-                color:      company.plan === 'enterprise' ? '#8b5cf6' :
-                            company.plan === 'premium'    ? '#FF6B35'  : '#3b82f6',
-                border:     `1px solid ${
-                              company.plan === 'enterprise' ? 'rgba(139,92,246,0.25)' :
-                              company.plan === 'premium'    ? 'rgba(255,107,53,0.25)'  :
-                                                              'rgba(59,130,246,0.25)' }`,
+                background: company.plan === 'premium' ? 'rgba(255,107,53,0.12)' : 'rgba(59,130,246,0.12)',
+                color:      company.plan === 'premium' ? '#FF6B35' : '#3b82f6',
+                border:     company.plan === 'premium' ? '1px solid rgba(255,107,53,0.25)' : '1px solid rgba(59,130,246,0.25)',
                 textTransform: 'uppercase', letterSpacing: 0.5,
               }}>
                 {company.plan}

@@ -47,7 +47,7 @@ Role assignment happens at login: the backend checks the logged-in email against
 ### Client Management
 The super admin sees all registered companies. Each company record stores:
 - Company name, type (PG / hostel / lodge / dormitory / apartment), city
-- Subscription plan (basic / premium / enterprise), status (active / trial / suspended / cancelled)
+- Subscription plan (basic / premium), status (active / trial / suspended / cancelled)
 - Owner contact details
 
 **Provision a new client:** Super admin fills a wizard → one API call (`POST /api/companies/provision`) creates the owner user account, company record, first billing entry, and sends a welcome email. No manual steps needed.
@@ -304,8 +304,7 @@ Residents cannot see other residents' data. The backend enforces this by filteri
 | Plan | Monthly Price | Max Rooms | Features Unlocked |
 |------|-------------|-----------|------------------|
 | **Basic** | ₹2,999 | 50 | Rooms, Residents, Payments, Complaints, Visitors, Gate Pass, Mess Menu, Enquiries |
-| **Premium** | ₹4,999 | 200 | Everything in Basic + Analytics, Invoices, Staff, Payroll, Security Deposits, Expenses |
-| **Enterprise** | ₹7,999 | Unlimited | Everything in Premium + Food Inventory, Full Reports, Meal Attendance, Priority Support |
+| **Premium** | ₹4,999 | Unlimited | Everything in Basic + Analytics, Invoices, Staff, Payroll, Security Deposits, Expenses, Unlimited rooms, Custom branding |
 
 Plan restrictions are enforced on the frontend via the `company.plan` field stored in context. The sidebar hides menu items the current plan doesn't include.
 

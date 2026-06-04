@@ -9,13 +9,23 @@ async function fetchCompany(tok) {
   } catch { return null; }
 }
 
+async function fetchResidentCompany(tok) {
+  try {
+    const r = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${tok}` } });
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d.company_plan ? { plan: d.company_plan, property_type: d.company_property_type || 'pg' } : null;
+  } catch { return null; }
+}
+
 export function AuthProvider({ children }) {
   const [user,         setUser]         = useState(null);
   const [company,      setCompany]      = useState(null);
   const [token,        setToken]        = useState(localStorage.getItem('pgease_token'));
   const [loading,      setLoading]      = useState(true);
-  const [planAlert,    setPlanAlert]    = useState(null); // { old, new, message }
+  const [planAlert,    setPlanAlert]    = useState(null);
   const companyRef = useRef(null);
+  const userRef    = useRef(null);
 
   useEffect(() => {
     if (token) {
@@ -24,8 +34,13 @@ export function AuthProvider({ children }) {
         .then(async data => {
           if (data) {
             setUser(data);
+            userRef.current = data;
             if (data.role === 'owner' || data.role === 'super_admin') {
               const c = await fetchCompany(token);
+              setCompany(c);
+              companyRef.current = c;
+            } else if (data.role === 'customer' && data.company_plan) {
+              const c = { plan: data.company_plan, property_type: data.company_property_type || 'pg' };
               setCompany(c);
               companyRef.current = c;
             }
@@ -38,13 +53,16 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  // Poll every 30s for owners to detect plan/status changes from super_admin
+  // Poll every 30s to detect plan/status changes made by super_admin
   useEffect(() => {
     if (!token) return;
     const poll = setInterval(async () => {
       const current = companyRef.current;
       if (!current) return;
-      const fresh = await fetchCompany(token);
+      const role = userRef.current?.role;
+      const fresh = role === 'customer'
+        ? await fetchResidentCompany(token)
+        : await fetchCompany(token);
       if (!fresh) return;
       const changed = [];
       if (current.plan   !== fresh.plan)   changed.push({ field:'plan',   old: current.plan,   now: fresh.plan });
@@ -70,9 +88,14 @@ export function AuthProvider({ children }) {
     localStorage.setItem('pgease_token', data.token);
     setToken(data.token);
     setUser(data.user);
+    userRef.current = data.user;
     if (data.user.role === 'owner' || data.user.role === 'super_admin') {
       const c = await fetchCompany(data.token);
       setCompany(c);
+      companyRef.current = c;
+    } else if (data.user.role === 'customer') {
+      const c = await fetchResidentCompany(data.token);
+      if (c) { setCompany(c); companyRef.current = c; }
     }
     return data.user;
   };
@@ -82,6 +105,8 @@ export function AuthProvider({ children }) {
     setToken(null);
     setUser(null);
     setCompany(null);
+    userRef.current    = null;
+    companyRef.current = null;
   };
 
   const refreshUser = async () => {
@@ -91,12 +116,16 @@ export function AuthProvider({ children }) {
       if (!res.ok) { logout(); return; }
       const data = await res.json();
       setUser(data);
+      userRef.current = data;
     } catch { logout(); }
   };
 
   const refreshCompany = async () => {
     if (!token) return;
-    const c = await fetchCompany(token);
+    const role = userRef.current?.role;
+    const c = role === 'customer'
+      ? await fetchResidentCompany(token)
+      : await fetchCompany(token);
     setCompany(c);
     companyRef.current = c;
   };

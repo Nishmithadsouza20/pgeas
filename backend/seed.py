@@ -1,7 +1,7 @@
 """
 PGease — Master Demo Seed Script
-Creates 15 companies: every property type (pg/hostel/lodge/dormitory/apartment)
-× every plan (basic/premium/enterprise) — so every plan is covered for every type.
+Creates 10 companies: every property type (pg/hostel/lodge/dormitory/apartment)
+× 2 plans (basic/premium) — so every plan is covered for every type.
 
 Run: python seed.py
 """
@@ -26,40 +26,35 @@ def ts(days=0):
 def dt(days=0):
     return (_today - timedelta(days=days)).isoformat()
 
-PLAN_AMT = {'basic': 2999, 'premium': 4999, 'enterprise': 7999}
+PLAN_AMT = {'basic': 2999, 'premium': 4999}
 
 
 # ─── account definitions ────────────────────────────────────────────────────
 SUPER_ADMIN = ('PGease Admin', 'admin@pgease.com', 'Admin@123', '9800000001')
 
-# 15 companies — 5 property types × 3 plans
+# 10 companies — 5 property types × 2 plans
 # (property_type, plan, status, company_name, owner_name, owner_email,
 #  city, address, total_rooms, logo, phone)
 COMPANIES = [
     # ── PG ──────────────────────────────────────────────────────────────────
     ('pg', 'basic',      'active', 'Cozy Nest PG',        'Suresh Kamath',  'owner.pg.basic@pgease.com',       'Mysore',     '14 Sayyaji Rao Road',           20, '🏡', '9811010001'),
     ('pg', 'premium',    'active', 'Sunrise PG Homes',    'Rajesh Kumar',   'owner.pg.premium@pgease.com',     'Bangalore',  '12 MG Road, Indiranagar',       30, '🌅', '9811010002'),
-    ('pg', 'enterprise', 'active', 'Royal Comfort PG',    'Neha Sharma',    'owner.pg.enterprise@pgease.com',  'Bangalore',  '55 Whitefield Main Road',       50, '👑', '9811010003'),
 
     # ── Hostel ──────────────────────────────────────────────────────────────
     ('hostel', 'basic',      'trial',  'Budget Nest Hostel',  'Ankit Joshi',    'owner.hostel.basic@pgease.com',   'Pune',       '9 Kothrud Colony',              25, '🏨', '9811020001'),
     ('hostel', 'premium',    'active', 'Green Valley Hostel', 'Priya Patel',    'owner.hostel.premium@pgease.com', 'Mumbai',     '88 Andheri West',               60, '🌿', '9811020002'),
-    ('hostel', 'enterprise', 'active', 'Elite Stay Hostel',   'Rohan Verma',    'owner.hostel.enterprise@pgease.com','Hyderabad','23 Banjara Hills',             120, '⭐', '9811020003'),
 
     # ── Lodge ───────────────────────────────────────────────────────────────
     ('lodge', 'basic',      'active', 'City Budget Lodge',   'Meena Rao',      'owner.lodge.basic@pgease.com',    'Chennai',    '5 Anna Nagar East',             12, '🛏️', '9811030001'),
     ('lodge', 'premium',    'active', 'Metro Lodge',         'Kiran Naik',     'owner.lodge.premium@pgease.com',  'Bangalore',  '67 Residency Road',             20, '🏙️', '9811030002'),
-    ('lodge', 'enterprise', 'active', 'Grand Stay Lodge',    'Arun Pillai',    'owner.lodge.enterprise@pgease.com','Delhi',     '18 Connaught Place',            35, '🏰', '9811030003'),
 
     # ── Dormitory ───────────────────────────────────────────────────────────
     ('dormitory', 'basic',      'trial',  'Campus Dorms',     'Divya Shetty',   'owner.dorm.basic@pgease.com',     'Manipal',    '3 University Campus Rd',        80, '🏫', '9811040001'),
     ('dormitory', 'premium',    'active', 'Metro Dormitory',  'Anitha Reddy',   'owner.dorm.premium@pgease.com',   'Hyderabad',  '34 HITECH City Road',          160, '🏢', '9811040002'),
-    ('dormitory', 'enterprise', 'active', 'Premier Dorms',    'Sanjay Iyer',    'owner.dorm.enterprise@pgease.com','Chennai',   '7 IIT Madras Rd',              300, '🎓', '9811040003'),
 
     # ── Apartment ───────────────────────────────────────────────────────────
     ('apartment', 'basic',      'active', 'Urban Budget Flats','Ritu Bansode',  'owner.apartment.basic@pgease.com','Noida',     '12 Sector 18',                  10, '🏗️', '9811050001'),
     ('apartment', 'premium',    'active', 'Urban Apartments',  'Vikram Singh',  'owner.apartment.premium@pgease.com','Delhi',   '7 Connaught Place',             40, '🏘️', '9811050002'),
-    ('apartment', 'enterprise', 'active', 'Prestige Residences','Kavitha Nair', 'owner.apartment.enterprise@pgease.com','Mumbai','99 Bandra West',              80, '🏯', '9811050003'),
 ]
 
 # 1 resident per company — email: resident.pg.basic@pgease.com etc.
@@ -67,19 +62,14 @@ COMPANIES = [
 RESIDENTS = [
     ('pg',        'basic',      'Arjun Sharma',   'resident.pg.basic@pgease.com',        '9876540001', 'Student'),
     ('pg',        'premium',    'Priya Mehta',    'resident.pg.premium@pgease.com',       '9876540002', 'Software Engineer'),
-    ('pg',        'enterprise', 'Rohan Gupta',    'resident.pg.enterprise@pgease.com',    '9876540003', 'IT Professional'),
     ('hostel',    'basic',      'Rahul Kumar',    'resident.hostel.basic@pgease.com',     '9876540004', 'Student'),
     ('hostel',    'premium',    'Sneha Iyer',     'resident.hostel.premium@pgease.com',   '9876540005', 'Student'),
-    ('hostel',    'enterprise', 'Vikram Reddy',   'resident.hostel.enterprise@pgease.com','9876540006', 'Research Scholar'),
     ('lodge',     'basic',      'Kavya Reddy',    'resident.lodge.basic@pgease.com',      '9876540007', 'Professional'),
     ('lodge',     'premium',    'Aditya Nair',    'resident.lodge.premium@pgease.com',    '9876540008', 'Sales Executive'),
-    ('lodge',     'enterprise', 'Pooja Desai',    'resident.lodge.enterprise@pgease.com', '9876540009', 'Manager'),
     ('dormitory', 'basic',      'Mohammed Ali',   'resident.dorm.basic@pgease.com',       '9876540010', 'Student'),
     ('dormitory', 'premium',    'Deepa Krishnan', 'resident.dorm.premium@pgease.com',     '9876540011', 'Student'),
-    ('dormitory', 'enterprise', 'Siddharth Rao',  'resident.dorm.enterprise@pgease.com',  '9876540012', 'PhD Scholar'),
     ('apartment', 'basic',      'Sunita Rao',     'resident.apartment.basic@pgease.com',  '9876540013', 'IT Professional'),
     ('apartment', 'premium',    'Karan Joshi',    'resident.apartment.premium@pgease.com','9876540014', 'Consultant'),
-    ('apartment', 'enterprise', 'Meera Pillai',   'resident.apartment.enterprise@pgease.com','9876540015','Senior Manager'),
 ]
 
 PW_OWNER    = 'Owner@123'
@@ -170,7 +160,7 @@ MAINT_POOL = [
 
 # ─── seed ───────────────────────────────────────────────────────────────────
 def seed():
-    print("\n=== PGease Master Seed — 15 Companies ===\n")
+    print("\n=== PGease Master Seed — 10 Companies ===\n")
 
     # 1. Init platform DB tables
     print("[1] Initialising platform tables...")

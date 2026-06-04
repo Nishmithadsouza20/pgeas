@@ -33,7 +33,7 @@ import Enquiries      from './pages/Enquiries';
 import MealAttendance from './pages/MealAttendance';
 import Plans          from './pages/Plans';
 
-const PLAN_UPGRADE_COLORS = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
+const PLAN_UPGRADE_COLORS = { basic:'#3b82f6', premium:'#FF6B35' };
 
 function Shell({ children }) {
   const [collapsed,   setCollapsed]   = useState(false);

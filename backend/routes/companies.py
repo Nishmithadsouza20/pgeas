@@ -90,7 +90,7 @@ def create_company():
     get_company_db(cur.lastrowid)
     return jsonify(dict(company)), 201
 
-PLAN_PRICES = {'basic': 2999, 'premium': 4999, 'enterprise': 7999}
+PLAN_PRICES = {'basic': 2999, 'premium': 4999}
 
 def _log_email(db, company_id, to_email, to_name, subject, body, email_type='general'):
     db.execute(

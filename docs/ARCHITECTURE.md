@@ -377,7 +377,7 @@ INSERT INTO platform_emails (to, subject, sent_at)
 ```
                     ┌─────────────────────────────────┐
                     │         pg_companies             │
-                    │  plan: 'basic' | 'premium' | 'enterprise'
+                    │  plan: 'basic' | 'premium'
                     └────────────────┬────────────────┘
                                      │
                     Returned in /api/companies/my-settings
@@ -385,19 +385,19 @@ INSERT INTO platform_emails (to, subject, sent_at)
                                      ▼
                     AuthContext.company.plan
                                      │
-                    ┌────────────────┼────────────────┐
-                    ▼                ▼                ▼
-                 basic            premium         enterprise
-                    │                │                │
-             Sidebar shows:   Sidebar adds:   Sidebar adds:
-             - Rooms          - Analytics     - Food Inventory
-             - Residents      - Invoices      - Reports
-             - Payments       - Staff         - Meal Attendance
-             - Complaints     - Payroll
-             - Visitors       - Deposits
-             - Gate Pass      - Expenses
-             - Mess Menu
-             - Enquiries
+                         ┌───────────┴───────────┐
+                         ▼                       ▼
+                      basic                   premium
+                         │                       │
+                  Sidebar shows:          Sidebar adds:
+                  - Rooms                 - Analytics
+                  - Residents             - Invoices
+                  - Payments              - Staff
+                  - Complaints            - Payroll
+                  - Visitors              - Deposits
+                  - Gate Pass             - Expenses
+                  - Mess Menu
+                  - Enquiries
 
-             Premium/Enterprise modules show lock icon for Basic owners
+             Premium modules show lock icon for Basic owners
 ```

@@ -34,32 +34,8 @@ const PLANS = [
     bg: 'rgba(255,107,53,0.08)',
     border: 'rgba(255,107,53,0.3)',
     icon: '⭐',
-    tagline: 'For growing hostels & PG chains',
+    tagline: 'For growing PGs, hostels & chains',
     popular: true,
-    features: [
-      { text: 'Up to 200 rooms', included: true },
-      { text: 'Resident portal access', included: true },
-      { text: 'Payments & invoicing', included: true },
-      { text: 'Complaints management', included: true },
-      { text: 'Visitor log', included: true },
-      { text: 'Advanced reports & exports', included: true },
-      { text: 'Notice board', included: true },
-      { text: 'Mess menu management', included: true },
-      { text: 'Gate pass management', included: true },
-      { text: 'Advanced analytics', included: true },
-      { text: 'Staff & payroll', included: true },
-      { text: 'Custom branding', included: false },
-    ],
-  },
-  {
-    key: 'enterprise',
-    label: 'Enterprise',
-    price: 7999,
-    color: '#8b5cf6',
-    bg: 'rgba(139,92,246,0.08)',
-    border: 'rgba(139,92,246,0.3)',
-    icon: '💎',
-    tagline: 'For large operations & apartments',
     features: [
       { text: 'Unlimited rooms', included: true },
       { text: 'Resident portal access', included: true },
@@ -99,7 +75,7 @@ export default function Plans() {
   return (
     <div>
       {/* ── Plan Cards ── */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:20, marginBottom:32 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:20, marginBottom:32 }}>
         {PLANS.map(plan => (
           <div key={plan.key} className="card" style={{
             padding:0, overflow:'hidden', position:'relative',

@@ -11,7 +11,7 @@ PGease/
 ├── backend/                  ← Python Flask API
 │   ├── app.py                ← Entry point, registers all route blueprints
 │   ├── database.py           ← SQLite connection, schema creation, multi-tenant logic
-│   ├── seed.py               ← Master seed: creates 15 demo companies + 31 accounts
+│   ├── seed.py               ← Master seed: creates 10 demo companies + 21 accounts
 │   ├── seed_data.py          ← Alternative seed with richer fake data
 │   ├── requirements.txt      ← Python dependencies
 │   ├── .env                  ← Secrets (not in git)
@@ -187,8 +187,8 @@ Role enforcement is done inline — the function checks the user's role and retu
 ### `seed.py`
 Comprehensive demo data generator. Creates:
 - 1 super admin account
-- 15 owner accounts (one per company type/plan combination)
-- 15 resident accounts
+- 10 owner accounts (one per company type/plan combination)
+- 10 resident accounts
 - Rooms, payments, complaints, maintenance, staff, and more per company
 
 Always run this before first launch. Re-running wipes and recreates everything.
@@ -315,7 +315,7 @@ The left navigation menu. Renders different menu items based on `user.role`:
 - Owner sees: all operational modules (filtered by plan)
 - Resident sees: Dashboard, Payments, Complaints, Mess, Gate Pass, Notices, Maintenance
 
-Plan-based hiding: Premium and Enterprise modules are hidden from Basic plan owners. The sidebar shows a lock icon and upgrade prompt instead.
+Plan-based hiding: Premium modules are hidden from Basic plan owners. The sidebar shows a lock icon and upgrade prompt instead.
 
 ### `src/components/Navbar.jsx`
 Top bar. Shows the property name (or "PGease" for super admin), theme toggle button, notification bell, and user avatar with dropdown (Profile, Logout).

@@ -131,6 +131,13 @@ def me():
     uid = int(get_jwt_identity())
     db  = get_db()
     user = db.execute('SELECT id,name,email,role,phone,is_verified,created_at,company_id FROM users WHERE id=?', [uid]).fetchone()
+    company_plan = None
+    company_property_type = None
+    if user and user['company_id']:
+        co = db.execute('SELECT plan, property_type FROM pg_companies WHERE id=?', [user['company_id']]).fetchone()
+        if co:
+            company_plan = co['plan']
+            company_property_type = co['property_type'] or 'pg'
     db.close()
     if not user:
         return jsonify({'error': 'User not found'}), 404
@@ -151,6 +158,8 @@ def me():
         'id': user['id'], 'name': user['name'], 'email': user['email'],
         'role': user['role'], 'phone': user['phone'],
         'is_verified': user['is_verified'], 'created_at': user['created_at'],
+        'company_plan': company_plan,
+        'company_property_type': company_property_type,
         'resident': res
     })
 

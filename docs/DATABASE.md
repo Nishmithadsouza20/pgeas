@@ -54,7 +54,7 @@ One row per client property.
 | `phone` | TEXT | |
 | `email` | TEXT | Owner contact email |
 | `owner_name` | TEXT | |
-| `plan` | TEXT | `basic` \| `premium` \| `enterprise` |
+| `plan` | TEXT | `basic` \| `premium` |
 | `status` | TEXT | `active` \| `trial` \| `suspended` \| `cancelled` |
 | `max_rooms` | INTEGER | 50 / 200 / unlimited based on plan |
 | `logo_url` | TEXT | |

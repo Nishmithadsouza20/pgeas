@@ -23,10 +23,10 @@ PGease has **three user roles**, each with a separate portal:
 | Role | Who They Are | Has Subscription Plan? | How They Get Access |
 |------|-------------|----------------------|---------------------|
 | **Super Admin** | PGease platform operator | No | Created by `seed.py` |
-| **Owner** | PG / hostel / lodge owner | **Yes** (Basic / Premium / Enterprise) | Provisioned by Super Admin |
+| **Owner** | PG / hostel / lodge owner | **Yes** (Basic / Premium) | Provisioned by Super Admin |
 | **Resident** | Tenant / guest / student | **No** — lives inside an owner's property | Added by their Owner |
 
-> The subscription plan (Basic / Premium / Enterprise) belongs to the **owner's company**, not to individual residents. It controls how many rooms the owner can manage and which features they can access.
+> The subscription plan (Basic / Premium) belongs to the **owner's company**, not to individual residents. It controls how many rooms the owner can manage and which features they can access.
 
 > **Important:** The public Register page (`/register`) creates an account with no property attached. It is not used in normal operation. All accounts are created through the flows described below.
 
@@ -93,7 +93,7 @@ This is how a new PG owner gets their account.
 | City | Bangalore |
 | Address | 12 MG Road |
 | Property Type | PG / Hostel / Lodge / Dormitory / Apartment |
-| Plan | Basic / Premium / Enterprise |
+| Plan | Basic / Premium |
 | Status | Active / Trial |
 | Total Rooms | 30 |
 
@@ -135,7 +135,7 @@ The Super Admin can:
 
 **Analytics** (`/analytics`) shows platform-level charts:
 - MRR trend over 12 months
-- Plan distribution (Basic / Premium / Enterprise split)
+- Plan distribution (Basic / Premium split)
 - City-wise client breakdown
 
 ![Screenshot: Super Admin Analytics page](screenshots/05_superadmin_analytics.png)
@@ -265,7 +265,7 @@ Available for PG / Hostel / Dormitory.
 ### 4.10 Your Subscription Plan
 
 Go to **Settings** (`/settings`) to see:
-- Your current plan (Basic / Premium / Enterprise)
+- Your current plan (Basic / Premium)
 - What features are included
 - What features are locked (and what plan unlocks them)
 - Monthly subscription amount
@@ -364,13 +364,12 @@ No. The owner must add them from the Residents page and set a password. The publ
 **Q: How do I add a new property owner as Super Admin?**
 Go to Platform Home → Clients tab → click + Add Client. Fill the form — this creates both the company and the owner's login account.
 
-**Q: What is the difference between Basic, Premium, and Enterprise?**
+**Q: What is the difference between Basic and Premium?**
 
 | Plan | Price | Rooms | Extra features |
 |------|-------|-------|---------------|
 | Basic | ₹2,999/mo | Up to 50 | Core management, complaints, visitors, gate pass |
-| Premium | ₹4,999/mo | Up to 200 | + Analytics, invoices, staff & payroll, deposits |
-| Enterprise | ₹7,999/mo | Unlimited | + Priority support, food inventory, full reports |
+| Premium | ₹4,999/mo | Unlimited | + Analytics, invoices, staff & payroll, deposits, expenses, custom branding |
 
 **Q: How do I re-seed the demo data?**
 ```bash

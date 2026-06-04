@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 
 // All hardcoded hex — CSS variables don't work reliably in SVG fill/stroke attributes
 const COLORS = ['#FF6B35','#22c55e','#3b82f6','#f59e0b','#8b5cf6','#ec4899'];
-const PLAN_COLORS_HEX = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
+const PLAN_COLORS_HEX = { basic:'#3b82f6', premium:'#FF6B35' };
 const GRID  = '#2e2e42';
 const TT    = { background:'#1e1e2e', border:'1px solid #3d3d5c', color:'#e2e8f0', borderRadius:8, fontSize:12, boxShadow:'0 8px 24px rgba(0,0,0,0.5)' };
 const AX    = { tick:{ fill:'#9999B0', fontSize:11 } };
@@ -54,7 +54,7 @@ function PlatformAnalytics() {
 
   const active   = companies.filter(c => c.status === 'active');
   const mrr      = active.reduce((s, c) => s + c.subscription_amount, 0);
-  const byPlan   = ['basic','premium','enterprise'].map(p => ({
+  const byPlan   = ['basic','premium'].map(p => ({
     name: p.charAt(0).toUpperCase()+p.slice(1),
     value: companies.filter(c => c.plan === p).length,
   })).filter(d => d.value > 0);

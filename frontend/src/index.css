@@ -416,7 +416,6 @@ select.form-input option { background: var(--bg-card); color: var(--text-1); }
 .badge-maintenance { background: rgba(245,158,11,.1);  color: #d97706; border-color: rgba(245,158,11,.25); }
 .badge-trial       { background: rgba(139,92,246,.1);  color: #7c3aed; border-color: rgba(139,92,246,.25); }
 .badge-inactive    { background: rgba(100,116,139,.1); color: #475569; border-color: rgba(100,116,139,.25); }
-.badge-enterprise  { background: rgba(139,92,246,.1);  color: #7c3aed; border-color: rgba(139,92,246,.25); }
 .badge-premium     { background: rgba(255,107,53,.1);  color: #e55b25; border-color: rgba(255,107,53,.25); }
 .badge-basic       { background: rgba(59,130,246,.1);  color: #2563eb; border-color: rgba(59,130,246,.25); }
 .badge-high        { background: rgba(239,68,68,.1);   color: #dc2626; border-color: rgba(239,68,68,.25); }

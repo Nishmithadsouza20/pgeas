@@ -10,9 +10,9 @@ const TT = { background:'var(--bg-card)', border:'1px solid var(--border)', colo
 /* ══════════════════════════════════════════════════════════════════
    SUPER ADMIN — PGease SaaS Platform Console
    ══════════════════════════════════════════════════════════════════ */
-const PLAN_COLOR  = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
+const PLAN_COLOR  = { basic:'#3b82f6', premium:'#FF6B35' };
 const STATUS_DOT  = { active:'var(--success)', trial:'var(--warning)', inactive:'var(--danger)' };
-const PLAN_BADGE  = { basic:'badge-info', premium:'badge-warning', enterprise:'badge-purple' };
+const PLAN_BADGE  = { basic:'badge-info', premium:'badge-warning' };
 
 function PlatformDashboard() {
   const navigate = useNavigate();
@@ -180,7 +180,7 @@ function PlatformDashboard() {
   const trial    = companies.filter(c => c.status === 'trial');
   const inactive = companies.filter(c => c.status === 'inactive');
   const mrr      = active.reduce((s, c) => s + c.subscription_amount, 0);
-  const byPlan   = ['basic','premium','enterprise'].map(p => ({
+  const byPlan   = ['basic','premium'].map(p => ({
     name: p.charAt(0).toUpperCase()+p.slice(1),
     value: companies.filter(c => c.plan === p).length,
     color: PLAN_COLOR[p],
@@ -437,7 +437,7 @@ function PlatformDashboard() {
           <div style={{ padding:'14px 20px', borderBottom:'1px solid var(--border)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10 }}>
             <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap' }}>
               <span style={{ fontSize:14, fontWeight:700, marginRight:4 }}>Clients</span>
-              {['all','basic','premium','enterprise'].map(p => (
+              {['all','basic','premium'].map(p => (
                 <button key={p} className={`filter-btn ${planFilter===p?'active':''}`} onClick={() => setPlanFilter(p)} style={{ textTransform:'capitalize', fontSize:11 }}>
                   {p==='all'?`All (${companies.length})`:`${p} (${companies.filter(c=>c.plan===p).length})`}
                 </button>
@@ -716,11 +716,10 @@ function PlatformDashboard() {
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
                   <div className="form-group" style={{ gridColumn:'1/-1' }}>
                     <label className="form-label">Subscription Plan</label>
-                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10, marginTop:6 }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:6 }}>
                       {[
                         ['basic','Basic','₹2,999/mo','Up to 50 rooms, core features'],
-                        ['premium','Premium','₹4,999/mo','Up to 200 rooms, analytics, reports'],
-                        ['enterprise','Enterprise','₹7,999/mo','Unlimited rooms, priority support'],
+                        ['premium','Premium','₹4,999/mo','Unlimited rooms, all features'],
                       ].map(([key,label,price,desc]) => (
                         <div key={key} onClick={() => setPForm(f=>({...f,plan:key}))} style={{
                           padding:'14px 12px', borderRadius:10, cursor:'pointer',
@@ -760,7 +759,7 @@ function PlatformDashboard() {
                   <div className="form-group" style={{ gridColumn:'1/-1', padding:'12px 14px', background:`${PLAN_COLOR[pForm.plan]||'var(--accent)'}0a`, borderRadius:10, border:`1px solid ${PLAN_COLOR[pForm.plan]||'var(--accent)'}30` }}>
                     <div style={{ fontSize:12, color:'var(--text-2)' }}>
                       <strong style={{ color: PLAN_COLOR[pForm.plan] }}>Billing summary:</strong>{' '}
-                      {pForm.plan?.charAt(0).toUpperCase()+pForm.plan?.slice(1)} plan at <strong>₹{({basic:2999,premium:4999,enterprise:7999}[pForm.plan]||2999).toLocaleString()}/month</strong>,
+                      {pForm.plan?.charAt(0).toUpperCase()+pForm.plan?.slice(1)} plan at <strong>₹{({basic:2999,premium:4999}[pForm.plan]||2999).toLocaleString()}/month</strong>,
                       billed on day {pForm.billing_cycle_day} of each month.
                       {pForm.contract_months > 1 && ` ${pForm.contract_months}-month contract.`}
                     </div>
@@ -778,7 +777,7 @@ function PlatformDashboard() {
                       ['Owner',    `${pForm.owner_name} — ${pForm.owner_email}`],
                       ['Location', `${pForm.city}${pForm.address ? ', '+pForm.address : ''}`],
                       ['Property', `${pForm.property_type} · ${pForm.total_rooms||0} rooms · ${pForm.floors_count} floor(s)`],
-                      ['Plan',     `${pForm.plan?.toUpperCase()} — ₹${({basic:2999,premium:4999,enterprise:7999}[pForm.plan]||2999).toLocaleString()}/mo`],
+                      ['Plan',     `${pForm.plan?.toUpperCase()} — ₹${({basic:2999,premium:4999}[pForm.plan]||2999).toLocaleString()}/mo`],
                       ['Contract', `${pForm.contract_months} months · Bill on day ${pForm.billing_cycle_day}`],
                     ].map(([l,v]) => (
                       <div key={l} style={{ display:'flex', gap:8, padding:'4px 0', borderBottom:'1px solid var(--border)', fontSize:12 }}>
@@ -845,8 +844,8 @@ function PlatformDashboard() {
             <form onSubmit={saveEdit}>
               <div style={{ marginBottom:16 }}>
                 <label className="form-label">Plan</label>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10, marginTop:6 }}>
-                  {[['basic','Basic','₹2,999'],['premium','Premium','₹4,999'],['enterprise','Enterprise','₹7,999']].map(([key,label,price]) => (
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:6 }}>
+                  {[['basic','Basic','₹2,999'],['premium','Premium','₹4,999']].map(([key,label,price]) => (
                     <div key={key} onClick={() => setEForm(f=>({...f,plan:key}))} style={{
                       padding:'10px 12px', borderRadius:10, cursor:'pointer', textAlign:'center',
                       border:`2px solid ${eForm.plan===key ? PLAN_COLOR[key] : 'var(--border)'}`,
@@ -1031,8 +1030,8 @@ function PlatformDashboard() {
                   {/* Plan changer */}
                   <div style={{ marginBottom:20 }}>
                     <div style={{ fontSize:13, fontWeight:700, marginBottom:10 }}>Change Plan</div>
-                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
-                      {[['basic','Basic','₹2,999'],['premium','Premium','₹4,999'],['enterprise','Enterprise','₹7,999']].map(([key,label,price]) => (
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+                      {[['basic','Basic','₹2,999'],['premium','Premium','₹4,999']].map(([key,label,price]) => (
                         <div key={key}
                           onClick={async () => {
                             if (profileClient.plan === key) return;

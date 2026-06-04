@@ -59,16 +59,16 @@ export default function Staff() {
       {/* Plan banner */}
       <div style={{
         background:'linear-gradient(135deg,#1a1a2e,#16213e)',
-        border:'1px solid rgba(139,92,246,0.3)', borderRadius:12,
+        border:'1px solid rgba(255,107,53,0.3)', borderRadius:12,
         padding:'14px 20px', marginBottom:24,
         display:'flex', alignItems:'center', gap:12
       }}>
         <span style={{ fontSize:20 }}>⭐</span>
         <div>
-          <div style={{ fontSize:13, fontWeight:700, color:'#a78bfa' }}>Enterprise Feature — Staff Management</div>
+          <div style={{ fontSize:13, fontWeight:700, color:'#FF6B35' }}>Premium Feature — Staff Management</div>
           <div style={{ fontSize:12, color:'#64748b' }}>Manage all PG employees, shifts, salaries and HR records in one place</div>
         </div>
-        <span className="badge badge-purple" style={{ marginLeft:'auto', flexShrink:0 }}>Enterprise</span>
+        <span className="badge badge-warning" style={{ marginLeft:'auto', flexShrink:0 }}>Premium</span>
       </div>
 
       {/* KPI strip */}

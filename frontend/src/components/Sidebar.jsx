@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
-const PLAN_COLOR = { basic:'#3b82f6', premium:'#FF6B35', enterprise:'#8b5cf6' };
-const PLAN_LABEL = { basic:'Basic', premium:'Premium', enterprise:'Enterprise' };
+const PLAN_COLOR = { basic:'#3b82f6', premium:'#FF6B35' };
+const PLAN_LABEL = { basic:'Basic', premium:'Premium' };
 
 const PROPERTY_LABELS = {
   pg:        { residents: 'Residents', rooms: 'Rooms',  portal: 'Resident Portal' },
@@ -22,11 +22,15 @@ const ADMIN_NAV = [
   ]},
 ];
 
-const HAS_MESS     = ['pg', 'hostel', 'dormitory'];
-const HAS_GATEPASS = ['pg', 'hostel', 'dormitory'];
+// Owner feature availability by property type.
+// Gate pass: only hostels/dorms enforce formal exit logging.
+// Mess: PGs, hostels, dorms provide food; apartments/lodges do not.
+const OWNER_HAS_MESS     = ['pg', 'hostel', 'dormitory'];
+const OWNER_HAS_GATEPASS = ['hostel', 'dormitory'];
 
-function buildOwnerNav(pt) {
+function buildOwnerNav(pt, plan) {
   const lbl = PROPERTY_LABELS[pt] || PROPERTY_LABELS.pg;
+  const isPremiumPlus = plan === 'premium';
 
   const mgmtItems = [
     { path:'/rooms',       icon:'🚪', label: lbl.rooms },
@@ -36,16 +40,19 @@ function buildOwnerNav(pt) {
     { path:'/maintenance', icon:'🔧', label:'Maintenance' },
     { path:'/enquiries',   icon:'📋', label:'Enquiries' },
   ];
-  if (HAS_GATEPASS.includes(pt)) mgmtItems.splice(4, 0, { path:'/gatepass', icon:'🎫', label:'Gate Pass' });
+  if (isPremiumPlus && OWNER_HAS_GATEPASS.includes(pt))
+    mgmtItems.splice(4, 0, { path:'/gatepass', icon:'🎫', label:'Gate Pass' });
 
   const commItems = [
     { path:'/complaints', icon:'📢', label:'Complaints' },
     { path:'/notices',    icon:'📌', label:'Notices' },
-    { path:'/mess',       icon:'🍽️', label:'Mess Menu' },
   ];
-  if (HAS_MESS.includes(pt)) commItems.push({ path:'/meals', icon:'🥘', label:'Meal Attendance' });
+  if (isPremiumPlus && OWNER_HAS_MESS.includes(pt)) {
+    commItems.push({ path:'/mess',  icon:'🍽️', label:'Mess Menu' });
+    commItems.push({ path:'/meals', icon:'🥘', label:'Meal Attendance' });
+  }
 
-  return [
+  const groups = [
     { label:'OVERVIEW', items:[
       { path:'/dashboard',   icon:'📊', label:'Dashboard' },
       { path:'/analytics',   icon:'📈', label:'Analytics' },
@@ -57,29 +64,47 @@ function buildOwnerNav(pt) {
       { path:'/expenses',    icon:'💰', label:'Expenses' },
       { path:'/reports',     icon:'📊', label:'Reports' },
     ]},
-    { label:'HR', items:[
-      { path:'/staff',       icon:'👨‍💼', label:'Staff' },
-      { path:'/attendance',  icon:'📅', label:'Attendance' },
-      { path:'/payroll',     icon:'💵', label:'Payroll' },
-    ]},
     { label:'COMMUNICATION', items: commItems },
     { label:'SETTINGS', items:[
       { path:'/settings',    icon:'⚙️', label:'Property Settings' },
     ]},
   ];
+
+  if (isPremiumPlus) {
+    groups.splice(3, 0, { label:'HR', items:[
+      { path:'/staff',      icon:'👨‍💼', label:'Staff' },
+      { path:'/attendance', icon:'📅', label:'Attendance' },
+      { path:'/payroll',    icon:'💵', label:'Payroll' },
+    ]});
+  }
+
+  return groups;
 }
 
-const RESIDENT_NAV = [
-  { label:'MY SPACE', items:[
+// Resident-specific feature availability by property type.
+// Gate pass: hostels/dorms enforce formal exit permission; PGs do not.
+// Mess menu: PGs/hostels/dorms provide food; apartments/lodges do not.
+const RESIDENT_HAS_MESS     = ['pg', 'hostel', 'dormitory'];
+const RESIDENT_HAS_GATEPASS = ['hostel', 'dormitory'];
+
+function buildResidentNav(plan, propertyType) {
+  const pt = propertyType || 'pg';
+  const isPremiumPlus = plan === 'premium';
+  const hasMess     = isPremiumPlus && RESIDENT_HAS_MESS.includes(pt);
+  const hasGatePass = isPremiumPlus && RESIDENT_HAS_GATEPASS.includes(pt);
+
+  const items = [
     { path:'/dashboard',   icon:'🏠', label:'My Dashboard' },
     { path:'/payments',    icon:'💳', label:'My Payments' },
     { path:'/maintenance', icon:'🔧', label:'Maintenance' },
-    { path:'/gatepass',    icon:'🎫', label:'Gate Pass' },
     { path:'/complaints',  icon:'📢', label:'Complaints' },
-    { path:'/mess',        icon:'🍽️', label:'Mess Menu' },
     { path:'/notices',     icon:'📌', label:'Notices' },
-  ]},
-];
+  ];
+  if (hasGatePass) items.splice(3, 0, { path:'/gatepass', icon:'🎫', label:'Gate Pass' });
+  if (hasMess)     items.push({ path:'/mess', icon:'🍽️', label:'Mess Menu' });
+
+  return [{ label:'MY SPACE', items }];
+}
 
 export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { user, company, logout } = useAuth();
@@ -92,8 +117,8 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
   const lbl = PROPERTY_LABELS[pt] || PROPERTY_LABELS.pg;
 
   const navGroups = user?.role === 'super_admin' ? ADMIN_NAV
-                  : user?.role === 'owner'        ? buildOwnerNav(pt)
-                  : RESIDENT_NAV;
+                  : user?.role === 'owner'        ? buildOwnerNav(pt, company?.plan)
+                  : buildResidentNav(company?.plan, company?.property_type);
 
   const roleSub = user?.role === 'super_admin' ? 'Platform Console'
                 : user?.role === 'owner'        ? 'Property Management'

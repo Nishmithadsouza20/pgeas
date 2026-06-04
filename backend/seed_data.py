@@ -222,11 +222,11 @@ FOOD_INVENTORY_DATA = [
 ]
 
 PG_COMPANIES = [
-    ("Sunrise PG Homes",     "Ravi Shankar",    "ravi@sunrisepg.com",     "Bangalore",   "12 MG Road, Bangalore",          "9811000001", "enterprise", "active",  45, 7999),
+    ("Sunrise PG Homes",     "Ravi Shankar",    "ravi@sunrisepg.com",     "Bangalore",   "12 MG Road, Bangalore",          "9811000001", "premium",    "active",  45, 4999),
     ("Green Valley PG",      "Meera Nair",      "meera@greenvalleypg.com","Hyderabad",   "88 Jubilee Hills, Hyderabad",    "9811000002", "premium",    "active",  30, 4999),
     ("Metro Stay PG",        "Suresh Pillai",   "suresh@metrostay.com",   "Chennai",     "34 Anna Nagar, Chennai",         "9811000003", "premium",    "active",  38, 4999),
     ("City Comfort PG",      "Anjali Desai",    "anjali@citycomfort.com", "Pune",        "7 Koregaon Park, Pune",          "9811000004", "basic",      "trial",   20, 2999),
-    ("Royal Residency",      "Mohammed Farhan", "farhan@royalres.com",    "Mumbai",      "55 Andheri West, Mumbai",        "9811000005", "enterprise", "active",  60, 7999),
+    ("Royal Residency",      "Mohammed Farhan", "farhan@royalres.com",    "Mumbai",      "55 Andheri West, Mumbai",        "9811000005", "premium",    "active",  60, 4999),
     ("Campus Nest PG",       "Divya Krishnan",  "divya@campusnest.com",   "Manipal",     "3 University Road, Manipal",     "9811000006", "basic",      "active",  25, 2999),
     ("Silicon Valley PG",    "Karan Mehta",     "karan@siliconpg.com",    "Bangalore",   "101 Whitefield, Bangalore",      "9811000007", "premium",    "active",  35, 4999),
     ("Comfort Zone PG",      "Sneha Iyer",      "sneha@comfortzone.com",  "Coimbatore",  "22 RS Puram, Coimbatore",        "9811000008", "basic",      "inactive",18, 2999),
