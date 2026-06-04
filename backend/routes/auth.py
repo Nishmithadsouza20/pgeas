@@ -172,8 +172,30 @@ def forgot_password():
                [email, otp, expires.strftime('%Y-%m-%d %H:%M:%S')])
     db.commit()
     db.close()
-    print(f"\n[OTP] Password reset OTP for {email}: {otp}\n")
+    print(f"\n[OTP] Password reset OTP for {email}: {otp}\n", flush=True)
     return jsonify({'message': 'OTP sent'})
+
+@auth_bp.route('/check-reset-otp', methods=['POST'])
+def check_reset_otp():
+    data  = request.get_json()
+    email = data.get('email', '').strip().lower()
+    otp   = data.get('otp', '').strip()
+
+    if not email or not otp:
+        return jsonify({'error': 'email and otp required'}), 400
+
+    db = get_db()
+    token = db.execute(
+        '''SELECT id FROM otp_tokens WHERE email=? AND otp=? AND is_used=0
+           AND expires_at > datetime('now') ORDER BY id DESC LIMIT 1''',
+        [email, otp]
+    ).fetchone()
+    db.close()
+
+    if not token:
+        return jsonify({'error': 'Invalid or expired OTP'}), 400
+
+    return jsonify({'message': 'OTP valid'})
 
 @auth_bp.route('/reset-password', methods=['POST'])
 def reset_password():

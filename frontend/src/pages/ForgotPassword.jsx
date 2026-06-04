@@ -25,9 +25,11 @@ export default function ForgotPassword() {
   };
 
   const verifyOtp = async e => {
-    e.preventDefault(); setError(''); setLoading(true);
+    e.preventDefault();
+    if (otp.length < 6) { setError('Enter the 6-digit code'); return; }
+    setError(''); setLoading(true);
     try {
-      await api.verifyOtp(email, otp);
+      await api.checkResetOtp(email, otp);
       setStep(STEP.reset);
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }

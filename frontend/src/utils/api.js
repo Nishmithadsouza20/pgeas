@@ -26,8 +26,9 @@ export const api = {
   // Auth
   login:          (email, password)          => req('POST', '/auth/login',          { email, password }),
   verifyOtp:      (email, otp)               => req('POST', '/auth/verify-otp',      { email, otp }),
-  forgotPassword: (email)                    => req('POST', '/auth/forgot-password', { email }),
-  resetPassword:  (email, otp, new_password) => req('POST', '/auth/reset-password', { email, otp, new_password }),
+  forgotPassword:  (email)                    => req('POST', '/auth/forgot-password',  { email }),
+  checkResetOtp:   (email, otp)               => req('POST', '/auth/check-reset-otp',  { email, otp }),
+  resetPassword:   (email, otp, new_password) => req('POST', '/auth/reset-password',   { email, otp, new_password }),
   getUsers:       ()                         => req('GET',  '/auth/users'),
 
   // Rooms

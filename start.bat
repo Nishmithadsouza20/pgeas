@@ -1,9 +1,9 @@
 @echo off
-title PGease — Starting...
+title PGease - Starting...
 
 echo.
 echo  ============================================
-echo   PGease — Smart Accommodation Platform
+echo   PGease - Smart Accommodation Platform
 echo  ============================================
 echo.
 
@@ -11,18 +11,18 @@ echo.
 echo  [1/2] Starting Backend (Flask)...
 start "PGease Backend" cmd /k "cd /d C:\Users\tast\PGease\backend && C:\Users\tast\AppData\Local\Python\pythoncore-3.10-64\python.exe app.py"
 
-:: Wait a moment for backend to initialize
-timeout /t 2 /nobreak >nul
+:: Wait for backend to initialize
+timeout /t 3 /nobreak >nul
 
 :: Start Frontend
 echo  [2/2] Starting Frontend (React)...
 start "PGease Frontend" cmd /k "cd /d C:\Users\tast\PGease\frontend && npm start"
 
 echo.
-echo  Both servers are starting:
-echo    Backend  -^>  http://localhost:5000
-echo    Frontend -^>  http://localhost:3000
+echo  Both servers starting:
+echo    Backend  ->  http://localhost:5000
+echo    Frontend ->  http://localhost:3000
 echo.
-echo  Close this window anytime — servers run in their own windows.
+echo  Close this window anytime - servers run in their own windows.
 echo.
 pause
