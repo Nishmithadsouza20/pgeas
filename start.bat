@@ -9,14 +9,14 @@ echo.
 
 :: Start Backend
 echo  [1/2] Starting Backend (Flask)...
-start "PGease Backend" cmd /k "cd /d C:\Users\tast\PGease\backend && C:\Users\tast\AppData\Local\Python\pythoncore-3.10-64\python.exe app.py"
+start "PGease Backend" cmd /k "cd /d %~dp0backend && python app.py"
 
 :: Wait for backend to initialize
 timeout /t 3 /nobreak >nul
 
 :: Start Frontend
 echo  [2/2] Starting Frontend (React)...
-start "PGease Frontend" cmd /k "cd /d C:\Users\tast\PGease\frontend && npm start"
+start "PGease Frontend" cmd /k "cd /d %~dp0frontend && npm start"
 
 echo.
 echo  Both servers starting:
