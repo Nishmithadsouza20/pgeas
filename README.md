@@ -140,8 +140,8 @@ All passwords are fixed so you can log in immediately after seeding.
 
 | Plan | Price | Max Rooms | Included Features |
 |------|-------|-----------|------------------|
-| **Basic** | ₹2,999/mo | 50 | Rooms · Residents · Payments · Complaints · Visitors · Gate Pass · Mess Menu · Enquiries |
-| **Premium** | ₹4,999/mo | Unlimited | Everything in Basic + Analytics, Invoices, Staff, Payroll, Deposits, Expenses, Unlimited rooms, Custom branding |
+| **Basic** | ₹2,999/mo | 50 | Rooms · Residents · Payments · Complaints · Visitors · Maintenance · Enquiries · Notices |
+| **Premium** | ₹4,999/mo | Unlimited | Everything in Basic + Mess Menu · Gate Pass · Analytics · Invoices · Staff · Payroll · Deposits · Expenses · Custom branding |
 
 ---
 
