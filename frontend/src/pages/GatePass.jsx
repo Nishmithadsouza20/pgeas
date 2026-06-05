@@ -87,7 +87,9 @@ export default function GatePass() {
             </button>
           ))}
         </div>
-        <button className="btn btn-primary" style={{ marginLeft:'auto' }} onClick={() => setShow(true)}>+ Request Pass</button>
+        {!isOwner && (
+          <button className="btn btn-primary" style={{ marginLeft:'auto' }} onClick={() => setShow(true)}>+ Request Pass</button>
+        )}
       </div>
 
       {loading ? <div className="spinner-wrap"><div className="spinner" /></div> : (
